@@ -1,7 +1,7 @@
 # FirstLight Home Care - Boston Northwest Landing Page Optimization Spec
 Audience: Families in Boston Northwest (Cambridge, Lexington, Winchester, Stoneham, Arlington, etc.) stressed about finding reliable, affordable, compassionate in-home care for seniors, dementia, veterans, or post-injury loved ones.
 Core Goal: Maximize CTR on primary CTAs — especially "Request Pricing" button, phone number (781) 874-9901 clicks, service "Learn More" links, and "Contact Our Team". (We are optimizing for clicks, not final form submits.)
-Current champion score: 82/100
+Current champion score: 83/100
 Constraints (never break these):
 - WordPress / current theme only. No new plugins, no custom CSS, no layout reordering.
 - Hero headline max ~60 characters.
@@ -59,8 +59,14 @@ Editable Sections:
 
    ### Editable Content
    Selected page: About us
-   Custom headline:
+   Custom headline: Why Families Trust Our Boston Northwest Care Team
    Custom content:
+   **A team that treats your loved one like family.** Our caregivers aren't just trained professionals—they're compassionate neighbors who understand the unique needs of seniors in Cambridge, Lexington, Winchester and throughout Boston Northwest.
+
+   **Personalized care plans built around your family.** From flexible scheduling with no weekly minimums to dementia-trained caregivers matched specifically for your loved one, we create care that fits your life—not the other way around.
+
+   **[Learn more about our approach](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/why-us/)** or **[Contact our team](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/contact-us/)** today to get started.
+
    Available options:
    - About us
    - Blog
