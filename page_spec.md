@@ -1,7 +1,7 @@
 # FirstLight Home Care - Boston Northwest Landing Page Optimization Spec
 Audience: Families in Boston Northwest (Cambridge, Lexington, Winchester, Stoneham, Arlington, etc.) stressed about finding reliable, affordable, compassionate in-home care for seniors, dementia, veterans, or post-injury loved ones.
 Core Goal: Maximize CTR on primary CTAs — especially "Request Pricing" button, phone number (781) 874-9901 clicks, service "Learn More" links, and "Contact Our Team". (We are optimizing for clicks, not final form submits.)
-Current champion score: 34/100
+Current champion score: 71/100
 Constraints (never break these):
 - WordPress / current theme only. No new plugins, no custom CSS, no layout reordering.
 - Hero headline max ~60 characters.
@@ -13,16 +13,12 @@ Editable Sections:
 
 1. Hero
    ### Locked Notes
-   - Hero keyword field only.
-   - Keep the line under roughly 60 characters.
+   - Single keyword field; keep it under roughly 60 characters.
 
    ### Editable Content
    Hero Keyword: Top-rated Home Care
 
 2. Owners Section
-   ### Locked Notes
-   - This section can include the owner label, supporting headline, phone link, and owner copy.
-
    ### Editable Content
    Section Label: Owners
    Headline: Exceptional and Affordable Home Care in Cambridge, Lexington and Winchester
@@ -39,8 +35,8 @@ Editable Sections:
 3. Services Grid
    ### Locked Notes
    - Show exactly 6 services.
-   - Personal Care and Companion Care are fixed.
-   - Remaining displayed services may swap only with the allowed options listed below.
+   - Personal Care and Companion Care stay fixed.
+   - The remaining 4 displayed services must come from the allowed options below.
 
    ### Editable Content
    Services to Show:
@@ -59,21 +55,19 @@ Editable Sections:
 
 4. Featured Page
    ### Locked Notes
-   - Nothing currently appears in the custom headline/content area, but there is space available there.
+   - The custom headline/content area exists and is currently empty.
 
    ### Editable Content
    Selected page: About us
    Custom headline:
    Custom content:
    Available options:
+   - About us
    - Blog
    - Resources
    - Leave blank
 
 5. SEO Content
-   ### Locked Notes
-   - Keep paste-ready markdown and links.
-
    ### Editable Content
    **Top Home Care Agency for Client Satisfaction in Boston Northwest**
 
@@ -106,7 +100,6 @@ Editable Sections:
 6. FAQs
    ### Locked Notes
    - Keep 5 FAQ items total.
-   - Each FAQ item consists of one question line and one answer line.
 
    ### Editable Content
    1. How do I know if home care is the right choice for my loved one?
