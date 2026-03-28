@@ -12,9 +12,18 @@ Constraints (never break these):
 Editable Sections:
 
 1. Hero
+   ### Locked Notes
+   - Hero keyword field only.
+   - Keep the line under roughly 60 characters.
+
+   ### Editable Content
    Hero Keyword: Top-rated Home Care
 
 2. Owners Section
+   ### Locked Notes
+   - This section can include the owner label, supporting headline, phone link, and owner copy.
+
+   ### Editable Content
    Section Label: Owners
    Headline: Exceptional and Affordable Home Care in Cambridge, Lexington and Winchester
    Phone Link: [(781) 874-9901](tel:+17818749901)
@@ -28,6 +37,12 @@ Editable Sections:
    Serving the Boston Northwest area, including Cambridge, Lexington, Winchester and Stoneham, we accept [veteran benefits](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/home-care-services/specialty-care/veteran-care/) and long-term care insurance. Contact us today to learn more about our outstanding home care services!
 
 3. Services Grid
+   ### Locked Notes
+   - Show exactly 6 services.
+   - Personal Care and Companion Care are fixed.
+   - Remaining displayed services may swap only with the allowed options listed below.
+
+   ### Editable Content
    Services to Show:
    - Personal Care (fixed)
    - Companion Care (fixed)
@@ -35,6 +50,7 @@ Editable Sections:
    - Dementia Care
    - Veteran Care
    - Respite Care
+
    Additional Service Options:
    - Rehab and Recovery Care
    - Family Care
@@ -42,16 +58,23 @@ Editable Sections:
    - Disability Care
 
 4. Featured Page
+   ### Locked Notes
+   - Nothing currently appears in the custom headline/content area, but there is space available there.
+
+   ### Editable Content
    Selected page: About us
    Custom headline:
    Custom content:
-   Note: Nothing currently appears in the custom headline/content area, but there is space available there.
    Available options:
    - Blog
    - Resources
    - Leave blank
 
 5. SEO Content
+   ### Locked Notes
+   - Keep paste-ready markdown and links.
+
+   ### Editable Content
    **Top Home Care Agency for Client Satisfaction in Boston Northwest**
 
    While others talk about focusing on the customer, we make sure to do so at every turn. Our clients mean the world to us and providing them with the best home care assistance is something we pride ourselves in. Read some of our [5-star client reviews](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/why-us/reviews/) to get a sense of the exceptional quality of service that you can expect from a FirstLight in-home caregiver.
@@ -81,6 +104,11 @@ Editable Sections:
    [Home Care Pricing](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/#quote)
 
 6. FAQs
+   ### Locked Notes
+   - Keep 5 FAQ items total.
+   - Each FAQ item consists of one question line and one answer line.
+
+   ### Editable Content
    1. How do I know if home care is the right choice for my loved one?
       1. There are a number of ways to determine if FirstLight Home Care of Boston Northwest’s private home care is right for you or your loved one. One of the biggest indicators is when your loved one needs additional help that family members or friends are unable or struggling to provide. An in-home caregiver can help with personal hygiene tasks, cleaning the house, mobility assistance, transportation, medication reminders, grocery shopping, meal preparation and more, as well as provide quality dementia and vteran care.
    2. Are family members involved in the care planning process?
