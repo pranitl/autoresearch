@@ -27,7 +27,10 @@ Constraint checks:
   - Travel Companion Services
   - Disability Care
 - The Featured Page selected value must remain one of the listed available options in `page_spec.md`.
+- The Featured Page selected value must remain `About us` for this experiment.
+- The Featured Page custom content must be plain text only and no more than 200 characters.
 - The FAQs must remain exactly 5 question-answer items.
+- Any town or area mentions must stay within the confirmed service areas listed in `page_spec.md`.
 - The page must keep the phone number, owner photo, Google 5-star badge, map, and footer unchanged.
 
 Use short, concrete rationales. The rubric is locked and must not be treated as editable page content.

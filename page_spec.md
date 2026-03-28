@@ -9,6 +9,19 @@ Constraints (never break these):
 - All text must paste cleanly into existing Gutenberg/Elementor blocks.
 - Keep phone number, owner photo, Google 5-star badge, map, and footer unchanged.
 
+Confirmed service areas for local copy:
+- Arlington
+- Belmont
+- Boston
+- Brookline
+- Cambridge
+- Lexington
+- Melrose
+- Somerville
+- Stoneham
+- Winchester
+- Also serving the surrounding areas.
+
 Editable Sections:
 
 1. Hero
@@ -21,16 +34,18 @@ Editable Sections:
 2. Owners Section
    ### Editable Content
    Section Label: Owners
-   Headline: Exceptional and Affordable Home Care in Cambridge, Lexington and Winchester
+   Headline: Get Same-Day Answers About Affordable Home Care in Cambridge, Lexington and Winchester
    Phone Link: [(781) 874-9901](tel:+17818749901)
    Owner Content:
-   At FirstLight Home Care of Boston Northwest, we understand how overwhelming it feels when a loved one needs more help at home—and finding care you can trust shouldn't add to that stress.
+   **Call or request a free consultation today—we'll follow up within hours**, not days.
 
-   That's why we offer flexible schedules with **no weekly minimums**, starting at just one visit per week. Our dementia-trained, background-checked caregivers provide the compassionate, personalized support your family deserves—whether that's help with daily routines, companionship, or specialized care for veterans or those recovering from injury.
+   At FirstLight Home Care of Boston Northwest, we know finding care for a loved one feels urgent. That's why we start with a free, no-obligation in-home visit to understand your family's needs and match you with the right caregiver.
+
+   Our dementia-trained, background-checked caregivers provide compassionate support—from daily routines and companionship to specialized veteran care and post-injury recovery. With **no weekly minimums** and flexible scheduling starting at one visit per week, you only pay for what you need.
 
    We're proud to be one of the [highest rated](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/why-us/reviews/) [home care agencies](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/why-us/reviews/) in the Boston area with _all 5-star Google reviews_, and recognized as a _Best of Home Care – Provider of Choice Award_ winner year after year.
 
-   Serving Cambridge, Lexington, Winchester, Stoneham and surrounding areas, we accept [veteran benefits](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/home-care-services/specialty-care/veteran-care/) and long-term care insurance. **[Schedule your free in-home consultation today](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/contact-us/)**—call us or send a message and we'll get back to you within hours to discuss your family's needs.
+   Serving Cambridge, Lexington, Winchester, Stoneham and surrounding areas, we accept [veteran benefits](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/home-care-services/specialty-care/veteran-care/) and long-term care insurance. **[Request pricing online](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/pricing/)** or call us at (781) 874-9901—we're here to help.
 
 3. Services Grid
    ### Locked Notes
@@ -55,17 +70,15 @@ Editable Sections:
 
 4. Featured Page
    ### Locked Notes
-   - The custom headline/content area exists and is currently empty.
+   - Keep the selected page set to About us for this experiment.
+   - The selected page must remain one of the available options listed below.
+   - The custom content field supports plain text only and must stay at or under 200 characters.
 
    ### Editable Content
    Selected page: About us
    Custom headline: Why Families Trust Our Boston Northwest Care Team
    Custom content:
-   **A team that treats your loved one like family.** Our caregivers aren't just trained professionals—they're compassionate neighbors who understand the unique needs of seniors in Cambridge, Lexington, Winchester and throughout Boston Northwest.
-
-   **Personalized care plans built around your family.** From flexible scheduling with no weekly minimums to dementia-trained caregivers matched specifically for your loved one, we create care that fits your life—not the other way around.
-
-   **[Learn more about our approach](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/why-us/)** or **[Contact our team](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/contact-us/)** today to get started.
+   We find the right caregiver for your loved one—personality, needs, and schedule. Meet our compassionate team and see why families across Boston Northwest choose us.
 
    Available options:
    - About us
@@ -77,11 +90,11 @@ Editable Sections:
    ### Editable Content
    **Top-Rated Home Care in Boston Northwest**
 
-   We're one of the [highest-rated home care agencies](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/why-us/reviews/) in the Boston area with all 5-star Google reviews—and a Best of Home Care Provider of Choice Award winner.
+   We're one of the [highest-rated home care agencies](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/why-us/reviews/) in the Boston area with all 5-star Google reviews—and a Best of Home Care Provider of Choice Award winner. Families in Cambridge, Lexington, and Winchester trust us for reliable, compassionate care.
 
    **Flexible Care, No Weekly Minimums**
 
-   Unlike many agencies, we don't require weekly minimums. Whether it's one visit a week or 24/7 care, we build a schedule around your family's needs. During our [free in-home consultation](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/contact-us/), we assess your loved one's routines, care needs, and personality to create a personalized care plan and match them with the right caregiver.
+   Unlike many agencies, we don't require weekly minimums. Whether it's one visit a week or 24/7 care, we build a schedule around your family's needs. During our [free in-home consultation](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/contact-us/), we assess your loved one's routines, care needs, and personality to create a personalized care plan—then match them with the right caregiver.
 
    **Dementia-Trained Caregivers in Cambridge, Lexington, and Winchester**
 
@@ -89,15 +102,15 @@ Editable Sections:
 
    **Affordable Care with Insurance and VA Benefits**
 
-   We accept long-term care insurance, EAP benefits, and veteran benefits. As an approved VA provider, we help veterans and their spouses qualify for benefits—and can often get care started immediately. [Request personalized pricing](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/pricing/) to see how affordable home care can be.
+   We accept long-term care insurance, EAP benefits, and veteran benefits. As an approved VA provider, we help veterans and their spouses qualify for benefits—and can often get care started immediately. **[Request personalized pricing](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/pricing/) today** to see how affordable home care can be.
 
    **Serving Seniors and Adults with Disabilities in Boston Northwest**
 
    From senior care and respite care to [companionship](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/home-care-services/companion-care/) and [disability care](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/home-care-services/specialty-care/disability-care/), we help adults of all ages live safely and comfortably at home. We also provide [rehab and recovery care](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/home-care-services/specialty-care/rehabilitation-recovery-care/) for those returning home after injury or illness.
 
-   **Ready to Get Started?**
+   **Get Started Today—Free Consultation, No Obligation**
 
-   [Contact our team](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/contact-us/) or call [(781) 874-9901](tel:+17818749901) to schedule your free, no-obligation consultation today.
+   [Contact our team now](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/contact-us/) or call [(781) 874-9901](tel:+17818749901) to schedule your free in-home consultation.
 
 6. FAQs
    ### Locked Notes
@@ -114,4 +127,3 @@ Editable Sections:
       1. We take time to understand each client's personality, routines, and care needs before matching them with a caregiver. Every caregiver is dementia-trained, background-checked, and committed to building a genuine, trusting relationship. [Meet our care team](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/why-us/) and see the difference personalized matching makes.
    5. When can home care be beneficial for a family member?
       1. Home care helps when your loved one wants to stay independent at home but needs a helping hand with daily tasks or companionship. It's also invaluable after an injury or illness—our [rehab and recovery care](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/home-care-services/specialty-care/rehabilitation-recovery-care/) can support a safe recovery at home. [Call us at (781) 874-9901](tel:+17818749901) to discuss your situation.
-
