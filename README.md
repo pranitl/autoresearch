@@ -49,6 +49,44 @@ Hi have a look at program.md and let's kick off a new experiment! let's do the s
 
 The `program.md` file is essentially a super lightweight "skill".
 
+## Running a spec optimization loop
+
+The native repo workflow is GPU-first and assumes an external agent edits files while
+`train.py` provides the evaluation harness. If you want the same research loop for a
+copy/spec problem instead of CUDA training, use the sibling runner in
+`spec_loop.py` plus the mutator instructions in `spec_program.md`.
+
+This path does not need CUDA. It uses OpenRouter for both mutation and judging, keeps
+local run artifacts under `.runs/`, and can commit winning candidates on a dedicated
+git branch. The mutator model reads `spec_program.md` and only proposes new contents
+for one section of `page_spec.md`; the runner splices that section into the file, uses
+the locked rubric in `scoring_rubric.md` for judging, and `page_spec.md` is the only
+tracked file this loop commits.
+
+```bash
+# 1. Install dependencies
+uv sync
+
+# 2. Configure OpenRouter
+cp .env.example .env
+# edit the API key; spec_loop.py auto-loads .env from the repo root
+
+# 3. Run the loop
+uv run spec_loop.py --spec page_spec.md --tag mar28-page-spec
+```
+
+The runner will:
+
+- load standing mutator instructions from `spec_program.md`
+- load the locked judge rubric from `scoring_rubric.md`
+- score the baseline spec
+- make one targeted change per round
+- splice the returned section into `page_spec.md`
+- judge the candidate against the rubric
+- keep only strict improvements
+- write logs and a final report to `.runs/<tag>/`
+- optionally commit winning versions to `specsearch/<tag>`
+
 ## Project structure
 
 ```
