@@ -22,16 +22,15 @@ You are optimizing for clicks, not downstream form submissions.
 ## Editing rules
 
 - Make exactly one small, targeted improvement per round.
-- Change exactly one editable section per round:
-  - `Hero`
+- For this run, change exactly one of these sections per round:
   - `Owners Section`
-  - `Services Grid`
   - `Featured Page`
   - `SEO Content`
   - `FAQs`
 - Keep all non-editable content unchanged.
 - Preserve every hard constraint already present in `page_spec.md`.
 - Treat every `### Locked Notes` block in `page_spec.md` as non-editable page structure.
+- Do not edit `Hero` or `Services Grid` in this run.
 
 ## Optimization heuristics
 
@@ -46,9 +45,9 @@ You are optimizing for clicks, not downstream form submissions.
 
 ## Section guidance
 
-- `Hero`: prioritize clarity, local relevance, urgency, and a concrete reason to click `Request Pricing` or call. This section is a single keyword field, not a longer copy block.
+- `Hero`: leave unchanged for this run.
 - `Owners Section`: strengthen empathy, affordability, proof, and risk reduction. You may test different town combinations in the section headline and supporting copy when they improve local relevance without feeling stuffed.
-- `Services Grid`: optimize which 6 services are shown. Keep `Personal Care (fixed)` and `Companion Care (fixed)` unchanged, and only swap the remaining 4 using the allowed options listed in `page_spec.md`.
+- `Services Grid`: leave unchanged for this run.
 - `Featured Page`: optimize the current `About us` selection by changing the custom headline and custom content only. Keep the selected page as `About us`, keep the content plain text only, and stay within the 200-character limit.
 - `SEO Content`: improve skimmability, local trust, and action intent while staying paste-clean for WordPress blocks. You may test different service-area mentions where they appear naturally.
 - `FAQs`: both the questions and the answers are editable. Keep 5 FAQ items total and make them clearer, more reassuring, more action-oriented, and locally relevant where a town reference adds credibility.

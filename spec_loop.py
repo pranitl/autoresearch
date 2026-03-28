@@ -229,6 +229,11 @@ def parse_args() -> argparse.Namespace:
         help="Maximum formatting retries per model call",
     )
     parser.add_argument(
+        "--allowed-sections",
+        nargs="+",
+        help="Optional list of section names the mutator may edit during this run",
+    )
+    parser.add_argument(
         "--no-git",
         action="store_true",
         help="Disable branch creation and commits",
@@ -470,10 +475,16 @@ def validate_candidate_spec(
     candidate_spec: str,
     declared_section: str,
     current_score: float,
+    allowed_sections: list[str] | None = None,
 ) -> tuple[str, list[str]]:
     errors: list[str] = []
     if declared_section not in SECTION_ORDER:
         errors.append(f"Changed section must be one of {SECTION_ORDER}; got {declared_section!r}.")
+        return candidate_spec, errors
+    if allowed_sections is not None and declared_section not in allowed_sections:
+        errors.append(
+            f"Changed section must be one of {allowed_sections} for this run; got {declared_section!r}."
+        )
         return candidate_spec, errors
 
     try:
@@ -645,6 +656,7 @@ def build_mutator_prompt(
     round_number: int,
     accepted_summaries: list[str],
     recent_rejections: list[str],
+    allowed_sections: list[str] | None = None,
     retry_feedback: str | None = None,
 ) -> list[dict[str, str]]:
     accepted_block = "\n".join(f"- {item}" for item in accepted_summaries[-8:]) or "- None yet"
@@ -652,6 +664,13 @@ def build_mutator_prompt(
     retry_block = ""
     if retry_feedback:
         retry_block = f"\nYour previous attempt failed validation for this reason:\n{retry_feedback}\n"
+    allowed_block = ""
+    if allowed_sections is not None:
+        allowed_block = (
+            "\nAllowed sections for this run:\n- "
+            + "\n- ".join(allowed_sections)
+            + "\nDo not edit any other section.\n"
+        )
 
     system_prompt = textwrap.dedent(
         """
@@ -685,6 +704,7 @@ def build_mutator_prompt(
 
         Recent rejected ideas:
         {rejected_block}
+        {allowed_block}
         {retry_block}
         Runner requirements:
         - Keep the "Current champion score" line unchanged. The runner will update it if you win.
@@ -942,6 +962,7 @@ def call_mutator(
     round_number: int,
     accepted_summaries: list[str],
     recent_rejections: list[str],
+    allowed_sections: list[str] | None,
     attempts: int,
     temperature: float,
 ) -> Mutation:
@@ -955,6 +976,7 @@ def call_mutator(
             round_number=round_number,
             accepted_summaries=accepted_summaries,
             recent_rejections=recent_rejections,
+            allowed_sections=allowed_sections,
             retry_feedback=retry_feedback,
         )
         raw_response = client.complete(
@@ -1125,6 +1147,15 @@ def build_final_report(
 
 def main() -> int:
     args = parse_args()
+    allowed_sections = None
+    if args.allowed_sections:
+        invalid_sections = [item for item in args.allowed_sections if item not in SECTION_ORDER]
+        if invalid_sections:
+            raise SpecLoopError(
+                f"--allowed-sections contains invalid section names: {invalid_sections}. "
+                f"Valid sections: {SECTION_ORDER}"
+            )
+        allowed_sections = list(args.allowed_sections)
     spec_path = args.spec.resolve()
     repo_root = get_repo_root(spec_path)
     spec_relative_path = os.path.relpath(spec_path, repo_root)
@@ -1206,6 +1237,7 @@ def main() -> int:
             round_number=round_number,
             accepted_summaries=accepted_summaries,
             recent_rejections=rejected_summaries,
+            allowed_sections=allowed_sections,
             attempts=args.model_attempts,
             temperature=args.mutator_temperature,
         )
@@ -1255,6 +1287,7 @@ def main() -> int:
             candidate_spec=candidate_spec,
             declared_section=mutation.changed_section,
             current_score=champion_score,
+            allowed_sections=allowed_sections,
         )
         candidate_path, judgement_path, mutation_path = persist_round_artifacts(
             run_dir=run_dir,
