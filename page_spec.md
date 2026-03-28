@@ -1,7 +1,7 @@
 # FirstLight Home Care - Boston Northwest Landing Page Optimization Spec
 Audience: Families in Boston Northwest (Cambridge, Lexington, Winchester, Stoneham, Arlington, etc.) stressed about finding reliable, affordable, compassionate in-home care for seniors, dementia, veterans, or post-injury loved ones.
 Core Goal: Maximize CTR on primary CTAs — especially "Request Pricing" button, phone number (781) 874-9901 clicks, service "Learn More" links, and "Contact Our Team". (We are optimizing for clicks, not final form submits.)
-Current champion score: 91/100
+Current champion score: 90/100
 Constraints (never break these):
 - WordPress / current theme only. No new plugins, no custom CSS, no layout reordering.
 - Hero headline max ~60 characters.
@@ -26,15 +26,19 @@ Editable Sections:
 
 1. Hero
    ### Locked Notes
-   - Single keyword field; keep it under roughly 60 characters.
+   - Single keyword field.
+   - Corporate automatically appends `in Boston Northwest` to the rendered hero headline.
+   - Optimize only the editable text before that suffix.
+   - Keep the full rendered hero headline concise and natural.
 
    ### Editable Content
-   Hero Keyword: Boston Northwest Home Care - Get Free Pricing Today
+   Hero Keyword: Skip the Search—Find Your Caregiver Fast
 
 2. Owners Section
-   ### Editable Content
+   ### Locked Notes
+   - For this experiment, only the `Headline` line is editable in this section.
+   - Keep the section label, phone link, and owner body copy unchanged.
    Section Label: Owners
-   Headline: Get Same-Day Answers About Affordable Home Care in Cambridge, Lexington and Winchester
    Phone Link: [(781) 874-9901](tel:+17818749901)
    Owner Content:
    **Call or request a free consultation today—we'll follow up within hours**, not days.
@@ -47,13 +51,15 @@ Editable Sections:
 
    Serving Cambridge, Lexington, Winchester, Stoneham and surrounding areas, we accept [veteran benefits](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/home-care-services/specialty-care/veteran-care/) and long-term care insurance. **[Request pricing online](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/pricing/)** or call us at (781) 874-9901—we're here to help.
 
+   ### Editable Content
+   Headline: Exceptional and Affordable Home Care in Cambridge, Lexington and Winchester
+
 3. Services Grid
    ### Locked Notes
+   - For this experiment, only the `Services headline` and `Services intro` text are editable.
    - Show exactly 6 services.
    - Personal Care and Companion Care stay fixed.
    - The remaining 4 displayed services must come from the allowed options below.
-
-   ### Editable Content
    Services to Show:
    - Personal Care (fixed)
    - Companion Care (fixed)
@@ -61,12 +67,16 @@ Editable Sections:
    - Dementia Care
    - Veteran Care
    - Rehab and Recovery Care
-
    Additional Service Options:
    - Live in Care
    - Family Care
    - Travel Companion Services
    - Disability Care
+
+   ### Editable Content
+   Services headline: Find Your Care Match
+   Services intro:
+   We match your loved one with the right caregiver—fast. Whether they need daily support, a few hours of companionship, or specialized dementia or veteran care, we'll build a plan around your family's schedule and budget. See which of our services might be the right fit.
 
 4. Featured Page
    ### Locked Notes
@@ -86,7 +96,17 @@ Editable Sections:
    - Resources
    - Leave blank
 
-5. SEO Content
+5. Videos
+   ### Locked Notes
+   - For this experiment, only the `Video headline` and `Video description` are editable.
+   - Keep the video embeds/media unchanged.
+
+   ### Editable Content
+   Video headline: Meet our Caregivers
+   Video description:
+   Our mission is to provide compassionate home care so the families we serve in Boston Northwest have peace of mind knowing their loved ones are receiving the support they need to enjoy the quality of life they deserve.
+
+6. SEO Content
    ### Editable Content
    **Top-Rated Home Care in Boston Northwest**
 
@@ -112,7 +132,7 @@ Editable Sections:
 
    [Contact our team now](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/contact-us/) or call [(781) 874-9901](tel:+17818749901) to schedule your free in-home consultation.
 
-6. FAQs
+7. FAQs
    ### Locked Notes
    - Keep 5 FAQ items total.
 
