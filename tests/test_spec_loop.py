@@ -78,6 +78,37 @@ class SpecLoopTests(unittest.TestCase):
         )
         self.assertTrue(any("duplicate services" in item.lower() for item in errors))
 
+    def test_validate_featured_page_section_rejects_markdown_and_overlong_text(self) -> None:
+        replacement = (
+            "[Learn more](https://example.com) "
+            + "A" * 210
+        )
+        candidate = PAGE_SPEC.replace(
+            "Meet the local care team families trust for compassionate support, no weekly minimums, and care plans built around your loved one. Learn what sets our Boston Northwest team apart.",
+            replacement,
+        )
+        _, errors = spec_loop.validate_candidate_spec(
+            current_spec=PAGE_SPEC,
+            candidate_spec=candidate,
+            declared_section="Featured Page",
+            current_score=68.0,
+        )
+        self.assertTrue(any("plain text only" in item.lower() for item in errors))
+        self.assertTrue(any("exceeds 200 characters" in item.lower() for item in errors))
+
+    def test_validate_featured_page_section_rejects_non_about_selection(self) -> None:
+        candidate = PAGE_SPEC.replace(
+            "Selected page: About us",
+            "Selected page: Blog",
+        )
+        _, errors = spec_loop.validate_candidate_spec(
+            current_spec=PAGE_SPEC,
+            candidate_spec=candidate,
+            declared_section="Featured Page",
+            current_score=68.0,
+        )
+        self.assertTrue(any("must remain 'About us'" in item for item in errors))
+
     def test_replace_current_champion_score_rounds_to_tenth(self) -> None:
         updated = spec_loop.replace_current_champion_score(PAGE_SPEC, 72.04)
         self.assertIn("Current champion score: 72/100", updated)

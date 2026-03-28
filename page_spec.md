@@ -9,6 +9,19 @@ Constraints (never break these):
 - All text must paste cleanly into existing Gutenberg/Elementor blocks.
 - Keep phone number, owner photo, Google 5-star badge, map, and footer unchanged.
 
+Confirmed service areas for local copy:
+- Arlington
+- Belmont
+- Boston
+- Brookline
+- Cambridge
+- Lexington
+- Melrose
+- Somerville
+- Stoneham
+- Winchester
+- Also serving the surrounding areas.
+
 Editable Sections:
 
 1. Hero
@@ -55,17 +68,15 @@ Editable Sections:
 
 4. Featured Page
    ### Locked Notes
-   - The custom headline/content area exists and is currently empty.
+   - Keep the selected page set to About us for this experiment.
+   - The selected page must remain one of the available options listed below.
+   - The custom content field supports plain text only and must stay at or under 200 characters.
 
    ### Editable Content
    Selected page: About us
    Custom headline: Why Families Trust Our Boston Northwest Care Team
    Custom content:
-   **A team that treats your loved one like family.** Our caregivers aren't just trained professionals—they're compassionate neighbors who understand the unique needs of seniors in Cambridge, Lexington, Winchester and throughout Boston Northwest.
-
-   **Personalized care plans built around your family.** From flexible scheduling with no weekly minimums to dementia-trained caregivers matched specifically for your loved one, we create care that fits your life—not the other way around.
-
-   **[Learn more about our approach](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/why-us/)** or **[Contact our team](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/contact-us/)** today to get started.
+   Meet the local care team families trust for compassionate support, no weekly minimums, and care plans built around your loved one. Learn what sets our Boston Northwest team apart.
 
    Available options:
    - About us
@@ -114,4 +125,3 @@ Editable Sections:
       1. We take time to understand each client's personality, routines, and care needs before matching them with a caregiver. Every caregiver is dementia-trained, background-checked, and committed to building a genuine, trusting relationship. [Meet our care team](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/why-us/) and see the difference personalized matching makes.
    5. When can home care be beneficial for a family member?
       1. Home care helps when your loved one wants to stay independent at home but needs a helping hand with daily tasks or companionship. It's also invaluable after an injury or illness—our [rehab and recovery care](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/home-care-services/specialty-care/rehabilitation-recovery-care/) can support a safe recovery at home. [Call us at (781) 874-9901](tel:+17818749901) to discuss your situation.
-

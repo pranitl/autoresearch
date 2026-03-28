@@ -420,11 +420,37 @@ def validate_services_section(section_text: str) -> list[str]:
 
 
 def validate_featured_page_section(section_text: str) -> list[str]:
+    errors = []
     match = re.search(r"(?m)^\s*(?:Selected page|Link text / section title):\s*(.+?)\s*$", section_text)
     blank_match = re.search(r"(?m)^\s*(?:Selected page|Link text / section title):\s*$", section_text)
     if not match and not blank_match:
         return ["Featured Page section is missing the selected-page line."]
-    return []
+
+    selected_value = match.group(1).strip() if match else ""
+    available_options = extract_labeled_bullets(section_text, "Available options")
+    if selected_value and available_options and selected_value not in available_options:
+        errors.append(
+            "Featured Page selected value is invalid; it must be one of the listed options "
+            f"({', '.join(available_options)}), not {selected_value!r}."
+        )
+    if "Keep the selected page set to About us for this experiment." in section_text and selected_value != "About us":
+        errors.append("Featured Page selected value must remain 'About us' for this experiment.")
+
+    content_match = re.search(
+        r"(?ms)^\s*Custom content:\s*\n(?P<body>.*?)(?=^\s*Available options:)",
+        section_text,
+    )
+    if content_match:
+        raw_content = content_match.group("body").strip()
+        normalized_content = re.sub(r"\s+", " ", raw_content).strip()
+        if re.search(r"\[[^\]]+\]\([^)]+\)|[*_`#>|]", raw_content):
+            errors.append("Featured Page custom content must be plain text only.")
+        if normalized_content and len(normalized_content) > 200:
+            errors.append(
+                f"Featured Page custom content exceeds 200 characters ({len(normalized_content)})."
+            )
+
+    return errors
 
 
 def validate_faq_section(section_text: str) -> list[str]:
@@ -1013,7 +1039,7 @@ def baseline_if_needed(
         reasoning=judge_reasoning,
         spec_text=current_spec,
         rubric_text=rubric_text,
-        champion_score=parse_score_from_spec(current_spec) or 0.0,
+        champion_score=0.0,
         attempts=judge_attempts,
         temperature=judge_temperature,
     )
