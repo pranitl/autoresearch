@@ -1,7 +1,7 @@
 # FirstLight Home Care - Boston Northwest Landing Page Optimization Spec
 Audience: Families in Boston Northwest (Cambridge, Lexington, Winchester, Stoneham, Arlington, etc.) stressed about finding reliable, affordable, compassionate in-home care for seniors, dementia, veterans, or post-injury loved ones.
 Core Goal: Maximize CTR on primary CTAs — especially "Request Pricing" button, phone number (781) 874-9901 clicks, service "Learn More" links, and "Contact Our Team". (We are optimizing for clicks, not final form submits.)
-Current champion score: 89/100
+Current champion score: 90/100
 Constraints (never break these):
 - WordPress / current theme only. No new plugins, no custom CSS, no layout reordering.
 - Hero headline max ~60 characters.
@@ -24,13 +24,13 @@ Editable Sections:
    Headline: Exceptional and Affordable Home Care in Cambridge, Lexington and Winchester
    Phone Link: [(781) 874-9901](tel:+17818749901)
    Owner Content:
-   At FirstLight Home Care of Boston Northwest, we understand how overwhelming it can feel when a loved one needs more help at home—and finding care you can trust shouldn't add to that stress.
+   At FirstLight Home Care of Boston Northwest, we understand how overwhelming it feels when a loved one needs more help at home—and finding care you can trust shouldn't add to that stress.
 
    That's why we offer flexible schedules with **no weekly minimums**, starting at just one visit per week. Our dementia-trained, background-checked caregivers provide the compassionate, personalized support your family deserves—whether that's help with daily routines, companionship, or specialized care for veterans or those recovering from injury.
 
    We're proud to be one of the [highest rated](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/why-us/reviews/) [home care agencies](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/why-us/reviews/) in the Boston area with _all 5-star Google reviews_, and recognized as a _Best of Home Care – Provider of Choice Award_ winner year after year.
 
-   Serving Cambridge, Lexington, Winchester, Stoneham and surrounding areas, we accept [veteran benefits](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/home-care-services/specialty-care/veteran-care/) and long-term care insurance. [Contact us today for a free, no-obligation consultation](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/contact-us/)—we'll listen, answer your questions, and help you find the right care plan for your family.
+   Serving Cambridge, Lexington, Winchester, Stoneham and surrounding areas, we accept [veteran benefits](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/home-care-services/specialty-care/veteran-care/) and long-term care insurance. **[Schedule your free in-home consultation today](https://www.firstlighthomecare.com/home-healthcare-boston-northwest/contact-us/)**—call us or send a message and we'll get back to you within hours to discuss your family's needs.
 
 3. Services Grid
    ### Locked Notes
