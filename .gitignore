@@ -21,3 +21,8 @@ dev/
 
 # Results file
 results.tsv
+
+# Spec loop artifacts and local secrets
+.runs/
+.env
+.env.local
