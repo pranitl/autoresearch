@@ -1,6 +1,6 @@
 # FirstLight Private Duty RSA Audit Spec - 2026-04-24
 
-Current champion score: 85/100
+Current champion score: 91/100
 This file is a working copy for a document-first RSA specsearch loop focused on the launched private-duty proof campaign.
 The loop may only edit the `### Editable Challenger` block inside the active ad-group section.
 All other content is locked audit evidence or reference context.
@@ -217,7 +217,7 @@ Descriptions:
 - The copy must still be safe enough for Google healthcare-advertising review.
 
 ### Editable Challenger
-Hypothesis: A tighter private-duty proof RSA should anchor headlines to all five target keyword themes, restore the proven free-consultation CTA headline, and keep the strongest no-minimums/local-trust differentiators, so Google can assemble the most relevant headline combination for every private-duty query variant while driving pricing/consultation next steps.
+Hypothesis: A family-control challenger that positions private-duty care as a decision the family owns — their schedule, their terms, direct access to a local care advisor — should differentiate from the pricing-proof and trust RSAs already live while expanding the asset bank with control/empowerment hooks that resonate with high-intent private-pay decision-makers.
 Target query themes:
 - private duty home care
 - private duty caregiver
@@ -227,28 +227,28 @@ Target query themes:
 Fixed recommended URL: `https://www.firstlighthomecare.com/home-healthcare-boston-northwest/landing/private-duty-home-care/`
 Headlines:
 - Private Duty Home Care
-- Private Caregivers
-- Private Home Care
-- Private Pay Home Care
+- Private Home Care Agency
+- Private In-Home Caregivers
+- Private-Pay Care At Home
 - Boston NW Home Care
 - FirstLight Home Care
 - No Weekly Minimums
-- Talk To A Care Advisor
+- You Choose The Schedule
+- Call A Local Care Advisor
+- Family-Owned & Local
 - Request Care Pricing
-- Local Family-Owned Care
-- Free Care Consultation
-- Private In-Home Caregivers
-- Care From 1 Visit To 24/7
+- Caregivers You Can Trust
+- Care On Your Terms
 - Background-Checked Aides
-- VA & LTC Guidance
+- Free Care Consultation
 Descriptions:
-- Flexible private-duty care for bathing, meals, mobility, companionship, and respite.
-- No weekly minimums. Request pricing or speak with a Boston NW care advisor today.
-- Private pay, LTC insurance, and VA benefit guidance for families comparing care.
-- Start with a free consultation and a care plan matched to schedule and budget.
+- Private-duty caregivers matched to your family's schedule, needs, and comfort level.
+- No weekly minimums. Talk to a local care advisor about pricing and next steps.
+- Background-checked caregivers from a family-owned Boston NW team you can reach directly.
+- Private pay, LTC insurance, and VA benefit guidance. Start with a free consultation.
 Why this should beat current live ads:
-- Every target keyword theme now has a direct headline anchor, improving expected headline-query relevance across all five exact/phrase matches.
-- Restores the proven "Free Care Consultation" CTA headline that both live RSAs carry but the prior challenger omitted, giving Google three distinct CTA headlines to rotate.
-- Preserves "Flexible" in Description 1 so the scheduling-flexibility signal remains even after the headline slot was reallocated to keyword coverage.
-- Retains the private-pay, no-minimums, and local-trust differentiation that separates this from generic senior-care ads.
+- It reframes around family control (You Choose The Schedule, Care On Your Terms, Call A Local Care Advisor) instead of repeating the pricing-proof or trust angles already live.
+- It covers all five keyword themes with dedicated headlines (Private Duty Home Care, Private Home Care Agency, Private In-Home Caregivers, Private-Pay Care At Home).
+- It materially expands the available asset bank for Google to assemble differentiated ad combinations alongside the two existing RSAs.
+- Descriptions emphasize matched care, direct local access, and family comfort level — language absent from both live RSAs.
 
