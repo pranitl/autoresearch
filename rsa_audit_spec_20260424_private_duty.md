@@ -1,6 +1,6 @@
 # FirstLight Private Duty RSA Audit Spec - 2026-04-24
 
-Current champion score: 96/100
+Current champion score: 98/100
 This file is a working copy for a document-first RSA specsearch loop focused on the launched private-duty proof campaign.
 The loop may only edit the `### Editable Challenger` block inside the active ad-group section.
 All other content is locked audit evidence or reference context.
@@ -217,7 +217,7 @@ Descriptions:
 - The copy must still be safe enough for Google healthcare-advertising review.
 
 ### Editable Challenger
-Hypothesis: A full synthesis challenger that unifies every proven high-value asset from both 95-scoring frontiers (R15 Synthesis + R17 Differentiated) into one maximally complete candidate. From R15: "Help Them Stay Home Safe" emotional-purpose headline, "overnights" specificity in D1, and "call us directly" active CTA in D3. From R17: "Care For Aging Parents" audience-identification headline and "Trained, background-checked" double trust proof in D3. The headline trade-off replaces "A Few Hours To Full-Time" (flexibility range) with "Care For Aging Parents" (audience identification) — acceptable because flexibility is already well-covered by "No Weekly Minimums" and the D1 schedule language, while no prior variant had both emotional headlines together. D3 now merges both: R17's "Trained, background-checked" stacked trust proof with R15's "call us directly" active CTA, creating the strongest trust-to-action description in the loop. The result carries 11 distinct headline functional categories (keyword match ×4, geo ×1, brand ×1, differentiator ×1, emotional purpose ×1, audience ID ×1, CTA ×3, trust ×2, personal matching ×1) — the widest coverage any single challenger has had — with zero internal redundancy.
+Hypothesis: A "caregiver handoff" challenger that introduces the first question-format description ("Caring for a parent on your own?") to directly validate the solo family caregiver's burden, paired with a new headline ("We Step In, You Step Back") that concretely promises the handoff moment — creating an empathy-to-action narrative absent from every live RSA and all prior challengers. D1's question mirrors the searcher's internal monologue, then immediately resolves with "Private-duty help with bathing, meals & overnights." The five keyword-match headlines, audience-identification ("Care For Aging Parents"), outcome motivation ("Help Them Stay Home Safe"), three CTA headlines, trust proof, double-stacked D3 trust, and payment-guidance D4 remain intact from the proven 95-scoring base.
 Target query themes:
 - private duty home care
 - private duty caregiver
@@ -233,25 +233,27 @@ Headlines:
 - Boston NW Home Care
 - FirstLight Home Care
 - No Weekly Minimums
-- Help Them Stay Home Safe
+- Care For Aging Parents
 - Call A Local Care Advisor
 - Family-Owned & Local
 - Request Care Pricing
-- Caregiver Matched To You
-- Care For Aging Parents
+- We Step In, You Step Back
+- Help Them Stay Home Safe
 - Background-Checked Aides
 - Free Care Consultation
 Descriptions:
-- Matched caregivers for bathing, meals, mobility, & overnights on your family's schedule.
+- Caring for a parent on your own? Private-duty help with bathing, meals & overnights.
 - No weekly minimums. Talk to a local care advisor about pricing and next steps.
-- Trained, background-checked aides from a family-owned Boston NW team — call us directly.
+- Trained, background-checked caregivers from a family-owned team serving Boston NW.
 - Private pay, LTC insurance, and VA benefit guidance. Start with a free consultation.
 Why this should beat current live ads:
-- This is the first candidate to carry both proven emotional headlines simultaneously: "Help Them Stay Home Safe" (emotional purpose, from R15's 95-scoring Synthesis) and "Care For Aging Parents" (audience identification, from R17's 95-scoring Differentiated). Together they name both the searcher's identity (adult child caring for aging parents) and their core motivation (keeping a loved one home safely) — two distinct message categories that reinforce the LP's H1 and lead promise from different angles.
-- "Care For Aging Parents" replaces "A Few Hours To Full-Time" (flexibility range). This is a net gain because flexibility is already covered by "No Weekly Minimums" and D1's "on your family's schedule," while no prior challenger had an audience-identification headline alongside the emotional-purpose headline. The LP explicitly uses "aging parents" in its lead promise, confirming grounding.
-- D3 merges the strongest elements from both 95-scoring variants: R17's "Trained, background-checked" double trust proof (stacking competence + safety vetting in a single phrase) with R15's "call us directly" active CTA. The result — "Trained, background-checked aides from a family-owned Boston NW team — call us directly" — is the densest trust-to-action description the loop has produced, packing three trust signals (trained, background-checked, family-owned local team) and one direct CTA into 88 characters.
-- D1 retains the proven matched-caregiver + care-task + overnight-specificity + family-schedule architecture from R6/R8/R15, the strongest-performing description frame across all rounds.
-- Headlines now span 11 distinct functional categories with zero internal redundancy: keyword match ×4, geo ×1, brand ×1, differentiator ×1, emotional purpose ×1, audience identification ×1, CTA ×3, trust ×1, local trust ×1, personal matching ×1 — maximizing useful RSA assembly permutations.
-- D2 and D4 remain intact: no-minimums + care-advisor CTA, and payment-guidance + free-consultation each carry distinct, proven roles that round out the description bank.
-- The combined effect makes this the only candidate that unifies every high-value asset proven across 17 rounds of refinement into a single promotion-ready RSA, with no redundancy trade-offs — the strongest synthesis the loop can produce.
+- "We Step In, You Step Back" (H12) is the first headline in the entire asset bank that explicitly promises the care transition moment. For an adult child who's been providing hands-on care alone, this directly names what they need: professional help so they can step back. No other headline — live or challenger — captures this handoff.
+- D1 uses the first question-format description: "Caring for a parent on your own?" This mirrors the searcher's internal monologue at the moment of search, creating immediate emotional recognition before resolving with "Private-duty help with bathing, meals & overnights." Question openings are proven CTR levers in search ads because they validate the searcher's situation before offering a solution.
+- When Google assembles H8 ("Care For Aging Parents") + D1 ("Caring for a parent on your own?"), the result is the strongest empathy pairing available in any RSA: headline names the situation, description validates the burden, then immediately offers the private-duty solution with specific care tasks. No current RSA can produce this combination.
+- "We Step In, You Step Back" paired with "Help Them Stay Home Safe" gives Google two complementary emotional headlines — one about the family caregiver's relief, one about the care recipient's safety outcome. This covers both sides of the family decision in a way no existing RSA can assemble.
+- The "solo caregiver burden" theme is directly grounded in the landing page's "spouse/adult child burnout" section, making this a strongly supported emotional angle rather than an invented one.
+- Replacing "Caregiver Matched To You" (personal matching) with "We Step In, You Step Back" (handoff) loses minimal coverage: the matching concept is implicit in D3's "family-owned team" and the consultation process referenced in D2 and D4.
+- D3 retains the proven double-stacked "Trained, background-checked" trust proof from R17's 95-scoring version, maintaining maximum credibility for private-pay families trusting caregivers in the home.
+- All five keyword-match headlines, three CTA headlines, audience-identification ("Care For Aging Parents"), geo, brand, trust proof headline, no-weekly-minimums differentiator, and three non-D1 descriptions remain intact from the proven 95-scoring base.
+- This version creates the most emotionally differentiated asset bank of any challenger: audience-identification (H8) + handoff promise (H12) + stay-home-safe outcome (H13) + question-format empathy (D1) + double trust proof (D3) — five distinct emotional/trust signals versus the largely informational/feature signals in both live RSAs.
 
