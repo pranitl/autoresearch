@@ -1,6 +1,6 @@
 # FirstLight Private Duty RSA Audit Spec - 2026-04-24
 
-Current champion score: 92/100
+Current champion score: 94/100
 This file is a working copy for a document-first RSA specsearch loop focused on the launched private-duty proof campaign.
 The loop may only edit the `### Editable Challenger` block inside the active ad-group section.
 All other content is locked audit evidence or reference context.
@@ -217,7 +217,7 @@ Descriptions:
 - The copy must still be safe enough for Google healthcare-advertising review.
 
 ### Editable Challenger
-Hypothesis: A family-control challenger that positions private-duty care as a decision the family owns — their schedule, their caregiver match, flexible hours from light help to full-time coverage, direct access to a local care advisor — differentiates from the pricing-proof and trust RSAs already live while expanding the asset bank with personal-matching and concrete flexibility hooks that resonate with high-intent private-pay decision-makers. Two prior internal overlaps (control/control, trust/trust) are resolved by introducing "Caregiver Matched To You" and "A Few Hours To Full-Time," each absent from all live RSAs.
+Hypothesis: A synthesis challenger that combines the strongest proven angles from five prior rounds — the family-control thesis (R2), practical care-task grounding (R3), keyword-gap closure (R4), and personal-matching plus concrete-flexibility headlines (R5) — into the most promotion-worthy unified RSA. The key synthesis is in D1, which now merges the personal-matching signal ("Matched caregivers"), concrete care tasks ("bathing, meals, mobility, and routines"), and family-schedule-control hook ("on your family's schedule") into one high-density description that names what the searcher needs and who controls it. All 15 champion headlines from R5 are retained, preserving the novel "Caregiver Matched To You" and "A Few Hours To Full-Time" assets alongside full keyword coverage and three distinct CTAs.
 Target query themes:
 - private duty home care
 - private duty caregiver
@@ -242,14 +242,14 @@ Headlines:
 - Background-Checked Aides
 - Free Care Consultation
 Descriptions:
-- Private-duty caregivers matched to your family's schedule, needs, and comfort level.
+- Matched caregivers for bathing, meals, mobility, and routines on your family's schedule.
 - No weekly minimums. Talk to a local care advisor about pricing and next steps.
 - Background-checked caregivers from a family-owned Boston NW team you can reach directly.
 - Private pay, LTC insurance, and VA benefit guidance. Start with a free consultation.
 Why this should beat current live ads:
-- Replaces two internally-overlapping headlines ("Care On Your Terms" ≈ "You Choose The Schedule"; "Caregivers You Can Trust" ≈ "Background-Checked Aides") with two fresh, concrete angles absent from all live RSAs.
-- "Caregiver Matched To You" speaks directly to the family's core concern about who enters their home, adding a personal-matching signal beyond generic trust language.
-- "A Few Hours To Full-Time" gives a concrete flexibility range that answers the searcher's scope question, worded differently from the live RSA's "Care From 1 Visit To 24/7" to widen the combinable asset pool.
-- Retains all five keyword-match headlines, the family-control schedule hook, three CTA headlines, and all four proven descriptions from the 91-point version.
-- Every headline now carries a distinct role (keyword match, geo, brand, differentiator, CTA, or unique value claim) with no internal redundancy, maximizing the useful combinations Google can assemble.
+- D1 synthesizes three winning prior angles into one concrete, high-intent description: the personal-matching signal (from R5's "Caregiver Matched To You" thesis), specific care tasks the searcher is likely seeking (bathing, meals, mobility, routines — grounded in the LP's care-problems list), and the family-schedule-control hook (from R2's family-control thesis). This replaces the prior abstract D1 ("schedule, needs, and comfort level") with language that names the searcher's actual care situation.
+- Retains all 15 champion headlines from R5, including "Caregiver Matched To You" and "A Few Hours To Full-Time" — two novel angles absent from all live RSAs that resolved prior internal overlaps.
+- D1's care-task specificity now mirrors Live RSA 1's D1 (bathing, meals, mobility, companionship, respite) but differentiates by adding the matched-caregiver and family-schedule framing, making this challenger's D1 strictly more informative when assembled with any headline combination.
+- D2–D4 remain intact: no-minimums + CTA, background-check + local trust, and payment-guidance + free-consultation each carry a distinct role.
+- Every headline carries a unique function (keyword match ×5, geo ×1, brand ×1, differentiator ×3, trust ×2, family control ×1, CTA ×2) with no internal redundancy, maximizing useful Google-assembled combinations.
 
