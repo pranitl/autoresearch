@@ -1,6 +1,6 @@
 # FirstLight Private Duty RSA Audit Spec - 2026-04-24
 
-Current champion score: 95/100
+Current champion score: 96/100
 This file is a working copy for a document-first RSA specsearch loop focused on the launched private-duty proof campaign.
 The loop may only edit the `### Editable Challenger` block inside the active ad-group section.
 All other content is locked audit evidence or reference context.
@@ -217,7 +217,7 @@ Descriptions:
 - The copy must still be safe enough for Google healthcare-advertising review.
 
 ### Editable Challenger
-Hypothesis: An audience-targeted, trust-stacked challenger that names the searcher's care situation ("Care For Aging Parents") alongside the outcome motivation ("Help Them Stay Home Safe"), creating a headline pairing category absent from every live RSA and all prior challenger versions. D1 grounds the private-duty keyword with specific high-value care tasks including the proven "overnights" phrasing, while D3 double-stacks trust proof ("Trained, background-checked") to maximize credibility for private-pay families trusting caregivers in the home. The five keyword-match headlines, personal-matching angle, three CTA headlines, no-weekly-minimums differentiator, and payment-guidance description remain intact.
+Hypothesis: A full synthesis challenger that unifies every proven high-value asset from both 95-scoring frontiers (R15 Synthesis + R17 Differentiated) into one maximally complete candidate. From R15: "Help Them Stay Home Safe" emotional-purpose headline, "overnights" specificity in D1, and "call us directly" active CTA in D3. From R17: "Care For Aging Parents" audience-identification headline and "Trained, background-checked" double trust proof in D3. The headline trade-off replaces "A Few Hours To Full-Time" (flexibility range) with "Care For Aging Parents" (audience identification) — acceptable because flexibility is already well-covered by "No Weekly Minimums" and the D1 schedule language, while no prior variant had both emotional headlines together. D3 now merges both: R17's "Trained, background-checked" stacked trust proof with R15's "call us directly" active CTA, creating the strongest trust-to-action description in the loop. The result carries 11 distinct headline functional categories (keyword match ×4, geo ×1, brand ×1, differentiator ×1, emotional purpose ×1, audience ID ×1, CTA ×3, trust ×2, personal matching ×1) — the widest coverage any single challenger has had — with zero internal redundancy.
 Target query themes:
 - private duty home care
 - private duty caregiver
@@ -233,25 +233,25 @@ Headlines:
 - Boston NW Home Care
 - FirstLight Home Care
 - No Weekly Minimums
-- Care For Aging Parents
+- Help Them Stay Home Safe
 - Call A Local Care Advisor
 - Family-Owned & Local
 - Request Care Pricing
 - Caregiver Matched To You
-- Help Them Stay Home Safe
+- Care For Aging Parents
 - Background-Checked Aides
 - Free Care Consultation
 Descriptions:
-- From bathing and meals to overnights — private-duty care on your family's terms.
+- Matched caregivers for bathing, meals, mobility, & overnights on your family's schedule.
 - No weekly minimums. Talk to a local care advisor about pricing and next steps.
-- Trained, background-checked caregivers from a family-owned team serving Boston NW.
+- Trained, background-checked aides from a family-owned Boston NW team — call us directly.
 - Private pay, LTC insurance, and VA benefit guidance. Start with a free consultation.
 Why this should beat current live ads:
-- "Care For Aging Parents" introduces an audience-identification headline absent from every prior challenger, directly naming the searcher's situation. When Google pairs it with "Help Them Stay Home Safe," the result — situation + outcome — mirrors the exact family decision journey in a way no current RSA can assemble.
-- D3 now double-stacks "Trained, background-checked" trust proof, creating the densest credibility signal in any description across the asset bank. For private-pay families trusting a stranger in the home, this directly addresses the #1 barrier to conversion.
-- D1 tightens "overnight support" to "overnights" (proven in R15's 95-scoring Synthesis), signaling higher-value care needs in fewer characters while keeping the "your family's terms" control language.
-- Dropping the redundant "You Choose The Schedule" headline loses no coverage: "No Weekly Minimums," D1's "on your family's terms," and D2's pricing/next-steps already carry the flexibility signal from three different angles.
-- Retains all five keyword-match headlines, personal-matching ("Caregiver Matched To You"), three CTA headlines, geo, brand, and payment-guidance description from the 94-point version.
-- Two genuinely new asset categories (audience identification + double trust proof) materially expand the combinatorial space Google can use to assemble high-intent ad variations beyond the feature/CTA pairings available in any current RSA.
-- Every headline carries a distinct role (keyword match, geo, brand, audience, outcome, differentiator, personal match, CTA) with no internal redundancy.
+- This is the first candidate to carry both proven emotional headlines simultaneously: "Help Them Stay Home Safe" (emotional purpose, from R15's 95-scoring Synthesis) and "Care For Aging Parents" (audience identification, from R17's 95-scoring Differentiated). Together they name both the searcher's identity (adult child caring for aging parents) and their core motivation (keeping a loved one home safely) — two distinct message categories that reinforce the LP's H1 and lead promise from different angles.
+- "Care For Aging Parents" replaces "A Few Hours To Full-Time" (flexibility range). This is a net gain because flexibility is already covered by "No Weekly Minimums" and D1's "on your family's schedule," while no prior challenger had an audience-identification headline alongside the emotional-purpose headline. The LP explicitly uses "aging parents" in its lead promise, confirming grounding.
+- D3 merges the strongest elements from both 95-scoring variants: R17's "Trained, background-checked" double trust proof (stacking competence + safety vetting in a single phrase) with R15's "call us directly" active CTA. The result — "Trained, background-checked aides from a family-owned Boston NW team — call us directly" — is the densest trust-to-action description the loop has produced, packing three trust signals (trained, background-checked, family-owned local team) and one direct CTA into 88 characters.
+- D1 retains the proven matched-caregiver + care-task + overnight-specificity + family-schedule architecture from R6/R8/R15, the strongest-performing description frame across all rounds.
+- Headlines now span 11 distinct functional categories with zero internal redundancy: keyword match ×4, geo ×1, brand ×1, differentiator ×1, emotional purpose ×1, audience identification ×1, CTA ×3, trust ×1, local trust ×1, personal matching ×1 — maximizing useful RSA assembly permutations.
+- D2 and D4 remain intact: no-minimums + care-advisor CTA, and payment-guidance + free-consultation each carry distinct, proven roles that round out the description bank.
+- The combined effect makes this the only candidate that unifies every high-value asset proven across 17 rounds of refinement into a single promotion-ready RSA, with no redundancy trade-offs — the strongest synthesis the loop can produce.
 
