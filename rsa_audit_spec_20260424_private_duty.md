@@ -217,7 +217,7 @@ Descriptions:
 - The copy must still be safe enough for Google healthcare-advertising review.
 
 ### Editable Challenger
-Hypothesis: A synthesis challenger that combines the strongest proven angles from five prior rounds — the family-control thesis (R2), practical care-task grounding (R3), keyword-gap closure (R4), and personal-matching plus concrete-flexibility headlines (R5) — into the most promotion-worthy unified RSA. The key synthesis is in D1, which now merges the personal-matching signal ("Matched caregivers"), concrete care tasks ("bathing, meals, mobility, and routines"), and family-schedule-control hook ("on your family's schedule") into one high-density description that names what the searcher needs and who controls it. All 15 champion headlines from R5 are retained, preserving the novel "Caregiver Matched To You" and "A Few Hours To Full-Time" assets alongside full keyword coverage and three distinct CTAs.
+Hypothesis: A situation-grounded challenger that names the searcher's core motivation — keeping a loved one safe at home — and grounds descriptions in specific care tasks (bathing, meals, overnight support) rather than abstract features. This differentiates from both live RSAs and the prior challenger by introducing an outcome/motivation headline category ("Help Them Stay Home Safe") absent from all current RSA assets, while making D1 practical and concrete. The family-control thesis, personal-matching headline, keyword coverage, CTA headlines, and trust/payment descriptions remain intact.
 Target query themes:
 - private duty home care
 - private duty caregiver
@@ -238,18 +238,19 @@ Headlines:
 - Family-Owned & Local
 - Request Care Pricing
 - Caregiver Matched To You
-- A Few Hours To Full-Time
+- Help Them Stay Home Safe
 - Background-Checked Aides
 - Free Care Consultation
 Descriptions:
-- Matched caregivers for bathing, meals, mobility, and routines on your family's schedule.
+- From bathing and meals to overnight support — private-duty care on your family's terms.
 - No weekly minimums. Talk to a local care advisor about pricing and next steps.
 - Background-checked caregivers from a family-owned Boston NW team you can reach directly.
 - Private pay, LTC insurance, and VA benefit guidance. Start with a free consultation.
 Why this should beat current live ads:
-- D1 synthesizes three winning prior angles into one concrete, high-intent description: the personal-matching signal (from R5's "Caregiver Matched To You" thesis), specific care tasks the searcher is likely seeking (bathing, meals, mobility, routines — grounded in the LP's care-problems list), and the family-schedule-control hook (from R2's family-control thesis). This replaces the prior abstract D1 ("schedule, needs, and comfort level") with language that names the searcher's actual care situation.
-- Retains all 15 champion headlines from R5, including "Caregiver Matched To You" and "A Few Hours To Full-Time" — two novel angles absent from all live RSAs that resolved prior internal overlaps.
-- D1's care-task specificity now mirrors Live RSA 1's D1 (bathing, meals, mobility, companionship, respite) but differentiates by adding the matched-caregiver and family-schedule framing, making this challenger's D1 strictly more informative when assembled with any headline combination.
-- D2–D4 remain intact: no-minimums + CTA, background-check + local trust, and payment-guidance + free-consultation each carry a distinct role.
-- Every headline carries a unique function (keyword match ×5, geo ×1, brand ×1, differentiator ×3, trust ×2, family control ×1, CTA ×2) with no internal redundancy, maximizing useful Google-assembled combinations.
+- "Help Them Stay Home Safe" names the searcher's #1 emotional motivation — avoiding facility placement and keeping a loved one home — an outcome-framing headline absent from every live RSA and all prior challenger versions. Grounded in the landing page's core promise ("help staying safe at home").
+- D1 now names specific care tasks (bathing, meals) and an overnight-support range, making the description feel concrete and practical rather than abstract. Answers the searcher's implicit question: "What kind of help can I actually get?"
+- "From … to overnight support" replaces the separate "A Few Hours To Full-Time" headline without losing flexibility-range coverage, since "You Choose The Schedule," "No Weekly Minimums," and D2 already carry the flexibility signal.
+- Retains all five keyword-match headlines, personal-matching headline ("Caregiver Matched To You"), three CTA headlines, geo, brand, and all trust/payment descriptions from the 92-point version.
+- Adds a genuinely new asset-bank category (outcome/motivation) that expands the useful headline combinations Google can assemble beyond service-feature and CTA pairings.
+- Every headline carries a distinct role (keyword match, geo, brand, differentiator, CTA, outcome motivation, or unique value claim) with no internal redundancy.
 
