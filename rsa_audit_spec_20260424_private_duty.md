@@ -217,7 +217,7 @@ Descriptions:
 - The copy must still be safe enough for Google healthcare-advertising review.
 
 ### Editable Challenger
-Hypothesis: A deep synthesis challenger that unifies the three strongest 94-scoring elements into one promotion-ready RSA: (1) R8's "Help Them Stay Home Safe" emotional-purpose headline, which names the core WHY of private-duty care and creates message reinforcement with the LP's stay-home promise; (2) R8's overnight-care specificity in D1, replacing the vague "routines" with the high-intent "overnights" — a specific LP care problem that signals substantive private-duty support, not just companion care; (3) a D3 CTA tightening that converts the passive "you can reach directly" to the active "call us directly," making the trust-proof description end in an actionable step. The headline swap replaces "You Choose The Schedule" (which overlapped with "A Few Hours To Full-Time") with a unique emotional-purpose category absent from all live RSAs, expanding the functional range to 10 distinct headline roles. All five keyword-match headlines, three CTAs, personal-matching, flexibility-range, and trust/differentiator assets are preserved. D1 retains the proven matched-caregiver + care-task + family-schedule architecture from R6 but upgrades its weakest word.
+Hypothesis: An audience-targeted, trust-stacked challenger that names the searcher's care situation ("Care For Aging Parents") alongside the outcome motivation ("Help Them Stay Home Safe"), creating a headline pairing category absent from every live RSA and all prior challenger versions. D1 grounds the private-duty keyword with specific high-value care tasks including the proven "overnights" phrasing, while D3 double-stacks trust proof ("Trained, background-checked") to maximize credibility for private-pay families trusting caregivers in the home. The five keyword-match headlines, personal-matching angle, three CTA headlines, no-weekly-minimums differentiator, and payment-guidance description remain intact.
 Target query themes:
 - private duty home care
 - private duty caregiver
@@ -233,24 +233,25 @@ Headlines:
 - Boston NW Home Care
 - FirstLight Home Care
 - No Weekly Minimums
-- Help Them Stay Home Safe
+- Care For Aging Parents
 - Call A Local Care Advisor
 - Family-Owned & Local
 - Request Care Pricing
 - Caregiver Matched To You
-- A Few Hours To Full-Time
+- Help Them Stay Home Safe
 - Background-Checked Aides
 - Free Care Consultation
 Descriptions:
-- Matched caregivers for bathing, meals, mobility, & overnights on your family's schedule.
+- From bathing and meals to overnights — private-duty care on your family's terms.
 - No weekly minimums. Talk to a local care advisor about pricing and next steps.
-- Background-checked caregivers from a family-owned Boston NW team — call us directly.
+- Trained, background-checked caregivers from a family-owned team serving Boston NW.
 - Private pay, LTC insurance, and VA benefit guidance. Start with a free consultation.
 Why this should beat current live ads:
-- Headline "Help Them Stay Home Safe" adds a unique emotional-purpose category absent from both live RSAs and prior challenger versions. It names the core family motivation (keeping a loved one home safely) that drives private-duty searches, creating message reinforcement with the LP's H1 and lead promise. It replaces "You Choose The Schedule," which overlapped functionally with "A Few Hours To Full-Time."
-- D1 upgrades "routines" (vague, not a keyword or LP care-problem term) to "overnights" (a specific high-intent care need listed on the LP's care-problems section: "overnight or continuous coverage"). This signals to searchers that this agency handles substantive private-duty support — not just daytime companionship — without claiming skilled/medical care.
-- D3 converts the passive "you can reach directly" to the active CTA "call us directly," making the description work harder in any Google-assembled combination. The em-dash creates clear visual separation between the trust proof (background-checked, family-owned, local) and the action step.
-- All 15 headlines now span 10 distinct functional categories: keyword match ×4, geo ×1, brand ×1, differentiator ×1, emotional purpose ×1, CTA ×3, trust ×2, personal matching ×1, flexibility ×1 — maximizing useful RSA assembly permutations with zero internal redundancy.
-- D2 and D4 remain intact: no-minimums + care-advisor CTA, and payment-guidance + free-consultation each carry distinct, proven roles.
-- The combined effect synthesizes R6's proven matched-caregiver/care-task/family-schedule D1 architecture, R8's emotional-purpose and overnight-specificity angles, and a fresh active-CTA close into the most complete single challenger the loop has produced.
+- "Care For Aging Parents" introduces an audience-identification headline absent from every prior challenger, directly naming the searcher's situation. When Google pairs it with "Help Them Stay Home Safe," the result — situation + outcome — mirrors the exact family decision journey in a way no current RSA can assemble.
+- D3 now double-stacks "Trained, background-checked" trust proof, creating the densest credibility signal in any description across the asset bank. For private-pay families trusting a stranger in the home, this directly addresses the #1 barrier to conversion.
+- D1 tightens "overnight support" to "overnights" (proven in R15's 95-scoring Synthesis), signaling higher-value care needs in fewer characters while keeping the "your family's terms" control language.
+- Dropping the redundant "You Choose The Schedule" headline loses no coverage: "No Weekly Minimums," D1's "on your family's terms," and D2's pricing/next-steps already carry the flexibility signal from three different angles.
+- Retains all five keyword-match headlines, personal-matching ("Caregiver Matched To You"), three CTA headlines, geo, brand, and payment-guidance description from the 94-point version.
+- Two genuinely new asset categories (audience identification + double trust proof) materially expand the combinatorial space Google can use to assemble high-intent ad variations beyond the feature/CTA pairings available in any current RSA.
+- Every headline carries a distinct role (keyword match, geo, brand, audience, outcome, differentiator, personal match, CTA) with no internal redundancy.
 
