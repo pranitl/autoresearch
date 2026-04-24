@@ -1,6 +1,6 @@
 # FirstLight Private Duty RSA Audit Spec - 2026-04-24
 
-Current champion score: 82/100
+Current champion score: 85/100
 This file is a working copy for a document-first RSA specsearch loop focused on the launched private-duty proof campaign.
 The loop may only edit the `### Editable Challenger` block inside the active ad-group section.
 All other content is locked audit evidence or reference context.
@@ -217,7 +217,7 @@ Descriptions:
 - The copy must still be safe enough for Google healthcare-advertising review.
 
 ### Editable Challenger
-Hypothesis: A stronger private-duty proof RSA should combine exact private-duty/private-home-care query anchors with clearer pricing/care-advisor intent and a local no-minimums trust hook, so serious private-pay families know this is a practical next-step page rather than generic senior-care content.
+Hypothesis: A tighter private-duty proof RSA should anchor headlines to all five target keyword themes, restore the proven free-consultation CTA headline, and keep the strongest no-minimums/local-trust differentiators, so Google can assemble the most relevant headline combination for every private-duty query variant while driving pricing/consultation next steps.
 Target query themes:
 - private duty home care
 - private duty caregiver
@@ -236,16 +236,19 @@ Headlines:
 - Talk To A Care Advisor
 - Request Care Pricing
 - Local Family-Owned Care
-- Flexible In-Home Care
-- Help At Home For Parents
+- Free Care Consultation
+- Private In-Home Caregivers
 - Care From 1 Visit To 24/7
 - Background-Checked Aides
 - VA & LTC Guidance
 Descriptions:
-- Private-duty care for bathing, meals, mobility, companionship, and respite.
+- Flexible private-duty care for bathing, meals, mobility, companionship, and respite.
 - No weekly minimums. Request pricing or speak with a Boston NW care advisor today.
 - Private pay, LTC insurance, and VA benefit guidance for families comparing care.
 - Start with a free consultation and a care plan matched to schedule and budget.
 Why this should beat current live ads:
-- It makes private-pay and pricing intent explicit while preserving private-duty query anchors.
-- It keeps the strongest no-minimums and local-trust hooks without reopening near-me expansion.
+- Every target keyword theme now has a direct headline anchor, improving expected headline-query relevance across all five exact/phrase matches.
+- Restores the proven "Free Care Consultation" CTA headline that both live RSAs carry but the prior challenger omitted, giving Google three distinct CTA headlines to rotate.
+- Preserves "Flexible" in Description 1 so the scheduling-flexibility signal remains even after the headline slot was reallocated to keyword coverage.
+- Retains the private-pay, no-minimums, and local-trust differentiation that separates this from generic senior-care ads.
+
