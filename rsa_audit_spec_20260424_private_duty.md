@@ -1,6 +1,6 @@
 # FirstLight Private Duty RSA Audit Spec - 2026-04-24
 
-Current champion score: 91/100
+Current champion score: 92/100
 This file is a working copy for a document-first RSA specsearch loop focused on the launched private-duty proof campaign.
 The loop may only edit the `### Editable Challenger` block inside the active ad-group section.
 All other content is locked audit evidence or reference context.
@@ -217,7 +217,7 @@ Descriptions:
 - The copy must still be safe enough for Google healthcare-advertising review.
 
 ### Editable Challenger
-Hypothesis: A family-control challenger that positions private-duty care as a decision the family owns — their schedule, their terms, direct access to a local care advisor — should differentiate from the pricing-proof and trust RSAs already live while expanding the asset bank with control/empowerment hooks that resonate with high-intent private-pay decision-makers.
+Hypothesis: A family-control challenger that positions private-duty care as a decision the family owns — their schedule, their caregiver match, flexible hours from light help to full-time coverage, direct access to a local care advisor — differentiates from the pricing-proof and trust RSAs already live while expanding the asset bank with personal-matching and concrete flexibility hooks that resonate with high-intent private-pay decision-makers. Two prior internal overlaps (control/control, trust/trust) are resolved by introducing "Caregiver Matched To You" and "A Few Hours To Full-Time," each absent from all live RSAs.
 Target query themes:
 - private duty home care
 - private duty caregiver
@@ -237,8 +237,8 @@ Headlines:
 - Call A Local Care Advisor
 - Family-Owned & Local
 - Request Care Pricing
-- Caregivers You Can Trust
-- Care On Your Terms
+- Caregiver Matched To You
+- A Few Hours To Full-Time
 - Background-Checked Aides
 - Free Care Consultation
 Descriptions:
@@ -247,8 +247,9 @@ Descriptions:
 - Background-checked caregivers from a family-owned Boston NW team you can reach directly.
 - Private pay, LTC insurance, and VA benefit guidance. Start with a free consultation.
 Why this should beat current live ads:
-- It reframes around family control (You Choose The Schedule, Care On Your Terms, Call A Local Care Advisor) instead of repeating the pricing-proof or trust angles already live.
-- It covers all five keyword themes with dedicated headlines (Private Duty Home Care, Private Home Care Agency, Private In-Home Caregivers, Private-Pay Care At Home).
-- It materially expands the available asset bank for Google to assemble differentiated ad combinations alongside the two existing RSAs.
-- Descriptions emphasize matched care, direct local access, and family comfort level — language absent from both live RSAs.
+- Replaces two internally-overlapping headlines ("Care On Your Terms" ≈ "You Choose The Schedule"; "Caregivers You Can Trust" ≈ "Background-Checked Aides") with two fresh, concrete angles absent from all live RSAs.
+- "Caregiver Matched To You" speaks directly to the family's core concern about who enters their home, adding a personal-matching signal beyond generic trust language.
+- "A Few Hours To Full-Time" gives a concrete flexibility range that answers the searcher's scope question, worded differently from the live RSA's "Care From 1 Visit To 24/7" to widen the combinable asset pool.
+- Retains all five keyword-match headlines, the family-control schedule hook, three CTA headlines, and all four proven descriptions from the 91-point version.
+- Every headline now carries a distinct role (keyword match, geo, brand, differentiator, CTA, or unique value claim) with no internal redundancy, maximizing the useful combinations Google can assemble.
 
