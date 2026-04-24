@@ -1,6 +1,6 @@
 # FirstLight Private Duty RSA Audit Spec - 2026-04-24
 
-Current champion score: 94/100
+Current champion score: 95/100
 This file is a working copy for a document-first RSA specsearch loop focused on the launched private-duty proof campaign.
 The loop may only edit the `### Editable Challenger` block inside the active ad-group section.
 All other content is locked audit evidence or reference context.
@@ -217,7 +217,7 @@ Descriptions:
 - The copy must still be safe enough for Google healthcare-advertising review.
 
 ### Editable Challenger
-Hypothesis: A situation-grounded challenger that names the searcher's core motivation — keeping a loved one safe at home — and grounds descriptions in specific care tasks (bathing, meals, overnight support) rather than abstract features. This differentiates from both live RSAs and the prior challenger by introducing an outcome/motivation headline category ("Help Them Stay Home Safe") absent from all current RSA assets, while making D1 practical and concrete. The family-control thesis, personal-matching headline, keyword coverage, CTA headlines, and trust/payment descriptions remain intact.
+Hypothesis: A deep synthesis challenger that unifies the three strongest 94-scoring elements into one promotion-ready RSA: (1) R8's "Help Them Stay Home Safe" emotional-purpose headline, which names the core WHY of private-duty care and creates message reinforcement with the LP's stay-home promise; (2) R8's overnight-care specificity in D1, replacing the vague "routines" with the high-intent "overnights" — a specific LP care problem that signals substantive private-duty support, not just companion care; (3) a D3 CTA tightening that converts the passive "you can reach directly" to the active "call us directly," making the trust-proof description end in an actionable step. The headline swap replaces "You Choose The Schedule" (which overlapped with "A Few Hours To Full-Time") with a unique emotional-purpose category absent from all live RSAs, expanding the functional range to 10 distinct headline roles. All five keyword-match headlines, three CTAs, personal-matching, flexibility-range, and trust/differentiator assets are preserved. D1 retains the proven matched-caregiver + care-task + family-schedule architecture from R6 but upgrades its weakest word.
 Target query themes:
 - private duty home care
 - private duty caregiver
@@ -233,24 +233,24 @@ Headlines:
 - Boston NW Home Care
 - FirstLight Home Care
 - No Weekly Minimums
-- You Choose The Schedule
+- Help Them Stay Home Safe
 - Call A Local Care Advisor
 - Family-Owned & Local
 - Request Care Pricing
 - Caregiver Matched To You
-- Help Them Stay Home Safe
+- A Few Hours To Full-Time
 - Background-Checked Aides
 - Free Care Consultation
 Descriptions:
-- From bathing and meals to overnight support — private-duty care on your family's terms.
+- Matched caregivers for bathing, meals, mobility, & overnights on your family's schedule.
 - No weekly minimums. Talk to a local care advisor about pricing and next steps.
-- Background-checked caregivers from a family-owned Boston NW team you can reach directly.
+- Background-checked caregivers from a family-owned Boston NW team — call us directly.
 - Private pay, LTC insurance, and VA benefit guidance. Start with a free consultation.
 Why this should beat current live ads:
-- "Help Them Stay Home Safe" names the searcher's #1 emotional motivation — avoiding facility placement and keeping a loved one home — an outcome-framing headline absent from every live RSA and all prior challenger versions. Grounded in the landing page's core promise ("help staying safe at home").
-- D1 now names specific care tasks (bathing, meals) and an overnight-support range, making the description feel concrete and practical rather than abstract. Answers the searcher's implicit question: "What kind of help can I actually get?"
-- "From … to overnight support" replaces the separate "A Few Hours To Full-Time" headline without losing flexibility-range coverage, since "You Choose The Schedule," "No Weekly Minimums," and D2 already carry the flexibility signal.
-- Retains all five keyword-match headlines, personal-matching headline ("Caregiver Matched To You"), three CTA headlines, geo, brand, and all trust/payment descriptions from the 92-point version.
-- Adds a genuinely new asset-bank category (outcome/motivation) that expands the useful headline combinations Google can assemble beyond service-feature and CTA pairings.
-- Every headline carries a distinct role (keyword match, geo, brand, differentiator, CTA, outcome motivation, or unique value claim) with no internal redundancy.
+- Headline "Help Them Stay Home Safe" adds a unique emotional-purpose category absent from both live RSAs and prior challenger versions. It names the core family motivation (keeping a loved one home safely) that drives private-duty searches, creating message reinforcement with the LP's H1 and lead promise. It replaces "You Choose The Schedule," which overlapped functionally with "A Few Hours To Full-Time."
+- D1 upgrades "routines" (vague, not a keyword or LP care-problem term) to "overnights" (a specific high-intent care need listed on the LP's care-problems section: "overnight or continuous coverage"). This signals to searchers that this agency handles substantive private-duty support — not just daytime companionship — without claiming skilled/medical care.
+- D3 converts the passive "you can reach directly" to the active CTA "call us directly," making the description work harder in any Google-assembled combination. The em-dash creates clear visual separation between the trust proof (background-checked, family-owned, local) and the action step.
+- All 15 headlines now span 10 distinct functional categories: keyword match ×4, geo ×1, brand ×1, differentiator ×1, emotional purpose ×1, CTA ×3, trust ×2, personal matching ×1, flexibility ×1 — maximizing useful RSA assembly permutations with zero internal redundancy.
+- D2 and D4 remain intact: no-minimums + care-advisor CTA, and payment-guidance + free-consultation each carry distinct, proven roles.
+- The combined effect synthesizes R6's proven matched-caregiver/care-task/family-schedule D1 architecture, R8's emotional-purpose and overnight-specificity angles, and a fresh active-CTA close into the most complete single challenger the loop has produced.
 
