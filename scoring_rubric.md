@@ -14,10 +14,16 @@ Constraint checks:
 
 - The candidate must keep the page within the existing WordPress/theme structure.
 - Any `### Locked Notes` content in `page_spec.md` is structural guidance and must not be edited.
-- The hero keyword line must stay under roughly 60 characters.
+- For this experiment, only the `Hero Keyword` line in `Hero` may change.
+- The `Hero Keyword` line must not repeat `Boston Northwest`, because the site auto-appends `in Boston Northwest` to the rendered hero headline.
+- The full rendered hero headline, including the auto-appended `in Boston Northwest`, must stay concise and natural.
 - The Services Grid must show exactly 6 services.
 - Personal Care and Companion Care must remain fixed in the grid.
-- The displayed services may swap among:
+- For this experiment, only the `Services headline` and `Services intro` text in the Services Grid may change.
+- For this experiment, the displayed services and additional service options must remain exactly as written in `page_spec.md`.
+- For this experiment, only the `Headline` line in `Owners Section` may change; the section label, phone link, and owner body copy must remain exactly as written in `page_spec.md`.
+- For this experiment, only the `Video headline` and `Video description` in `Videos` may change; the video embeds/media must remain unchanged.
+- Outside this experiment, displayed services may swap among:
   - Live in Care
   - Dementia Care
   - Veteran Care

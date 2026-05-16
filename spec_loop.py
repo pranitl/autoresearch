@@ -1,8 +1,8 @@
 """
 Spec optimization loop for page-level CRO experiments.
 
-This keeps the git/research workflow from the native autoresearch repo, but swaps
-the CUDA training run for an OpenRouter-driven text optimization loop.
+This keeps the champion/revert workflow from the original experiment loop, but
+uses OpenRouter-driven copy mutation and judging instead of a numeric benchmark.
 
 Usage:
     uv run spec_loop.py --spec page_spec.md --tag 20260328-page-spec
@@ -31,6 +31,7 @@ SECTION_ORDER = [
     "Owners Section",
     "Services Grid",
     "Featured Page",
+    "Videos",
     "SEO Content",
     "FAQs",
 ]
@@ -40,8 +41,9 @@ SECTION_MARKERS = {
     "Owners Section": "2. Owners Section",
     "Services Grid": "3. Services Grid",
     "Featured Page": "4. Featured Page",
-    "SEO Content": "5. SEO Content",
-    "FAQs": "6. FAQs",
+    "Videos": "5. Videos",
+    "SEO Content": "6. SEO Content",
+    "FAQs": "7. FAQs",
 }
 
 SCORE_CATEGORY_MAXES = {
@@ -109,10 +111,136 @@ class Judgement:
     total_score: float
     summary: str
     raw_response: str
+    private_feedback: str = ""
+    socratic_questions: list[str] | None = None
+    uncertainty: float = 0.0
+    risk_tags: list[str] | None = None
+    novelty_score: float = 0.0
+
+
+@dataclass(frozen=True)
+class PersonaJudge:
+    persona_id: str
+    name: str
+    role: str
+    background: str
+    pain_points: list[str]
+    buying_triggers: list[str]
+    search_intent: str
+
+
+@dataclass
+class PersonaJudgement:
+    persona: PersonaJudge
+    judgement: Judgement
+
+
+@dataclass
+class SeoGateResult:
+    passes: bool
+    issues: list[str]
+    repair_instructions: list[str]
+    risk_level: str
+    notes: str
+    raw_response: str
+
+
+HOME_CARE_PERSONAS = [
+    PersonaJudge(
+        persona_id="overwhelmed_adult_child",
+        name="The Overwhelmed Adult Child",
+        role="Primary decision-maker",
+        background=(
+            "Adult child, typically late 40s to early 60s, balancing a full-time "
+            "career, children, and an aging parent's declining health from a distance "
+            "or on top of a packed schedule."
+        ),
+        pain_points=[
+            "Severe guilt over not being able to provide the care themselves.",
+            "Chronic stress and burnout from acting as part-time caregiver and full-time project manager.",
+            "Anxiety over falls, wandering, missed medication, dementia, or Alzheimer's decline.",
+            "Low trust caused by opaque care options and poor communication.",
+        ],
+        buying_triggers=[
+            "A fall, wandering incident, missed critical medication, visible home hygiene decline, or poor nutrition.",
+        ],
+        search_intent=(
+            "High-intent, solution-oriented, and urgency-driven. Looks for immediate relief, "
+            "clear onboarding, credentialed expertise, and reassurance that a parent will be safe, "
+            "dignified, and well-managed."
+        ),
+    ),
+    PersonaJudge(
+        persona_id="exhausted_spouse_caregiver",
+        name="The Exhausted Spouse Caregiver",
+        role="Co-resident partner",
+        background=(
+            "Older adult, typically 70+, living with a spouse and serving as primary caregiver "
+            "out of love, duty, and habit."
+        ),
+        pain_points=[
+            "Physical exhaustion from mobility help, bathing support, and nighttime wakefulness.",
+            "Isolation and loss of identity or social life outside caregiving.",
+            "Resistance to a nursing home, paired with the realization they cannot do it alone.",
+            "Fear of long contracts or large financial commitments when they want a few hours of relief.",
+        ],
+        buying_triggers=[
+            "A personal medical scare for the healthier spouse.",
+            "Total physical or emotional burnout that makes their own health feel at risk.",
+        ],
+        search_intent=(
+            "Relief-oriented and cautious. Searches for part-time, flexible respite support "
+            "that provides a break without feeling like abandonment or an expensive inflexible contract."
+        ),
+    ),
+    PersonaJudge(
+        persona_id="veteran_advocate",
+        name="The Veteran / Veteran's Advocate",
+        role="Benefits navigator",
+        background=(
+            "Aging wartime veteran or adult child managing affairs for a veteran parent who "
+            "needs daily living assistance."
+        ),
+        pain_points=[
+            "Frustration with complex benefits systems and qualification rules.",
+            "Desire for dignified aging in place that honors the veteran's service.",
+            "Financial constraints that make private duty care difficult without earned benefits.",
+        ],
+        buying_triggers=[
+            "Discovery that VA benefits such as Aid and Attendance can fund accredited in-home non-medical care.",
+            "Rapid decline in mobility or independence that forces the household to use benefits.",
+        ],
+        search_intent=(
+            "Trust- and qualification-driven. Looks for explicit confirmation that an agency is an "
+            "approved provider, knows the paperwork, and respects veteran households."
+        ),
+    ),
+    PersonaJudge(
+        persona_id="post_rehab_transitioner",
+        name="The Post-Rehab Transitioner",
+        role="Short-term recovery patient",
+        background=(
+            "Independent older adult recently discharged or preparing for discharge after surgery, "
+            "a cardiac procedure, mild stroke, or another temporary medical event."
+        ),
+        pain_points=[
+            "Sudden loss of independence and frustration with physical limits.",
+            "Anxiety about reinjury during recovery at home.",
+            "Difficulty cooking, bathing, managing reminders, and getting to follow-up appointments.",
+        ],
+        buying_triggers=[
+            "An imminent hospital or rehab discharge date with a requirement for a home care plan.",
+        ],
+        search_intent=(
+            "Urgent, specific, and temporary. Looks for flexible short-term transition care focused "
+            "on recovery support, reminders, transportation, and physical assistance."
+        ),
+    ),
+]
 
 
 class OpenRouterClient:
-    def __init__(self, api_key: str, base_url: str, timeout: int = 120) -> None:
+    def __init__(self, api_key: str, base_url: str, timeout: int = 300) -> None:
         self.api_key = api_key
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout
@@ -143,19 +271,30 @@ class OpenRouterClient:
         }
         if reasoning:
             payload["reasoning"] = reasoning
-        response = requests.post(
-            f"{self.base_url}/chat/completions",
-            headers=headers,
-            json=payload,
-            timeout=self.timeout,
-        )
+        try:
+            response = requests.post(
+                f"{self.base_url}/chat/completions",
+                headers=headers,
+                json=payload,
+                timeout=self.timeout,
+            )
+        except requests.Timeout as exc:
+            raise SpecLoopError(
+                f"OpenRouter request timed out after {self.timeout}s."
+            ) from exc
+        except requests.RequestException as exc:
+            raise SpecLoopError(f"OpenRouter transport error: {exc}") from exc
         try:
             response.raise_for_status()
         except requests.HTTPError as exc:
             detail = response.text[:500]
             raise SpecLoopError(f"OpenRouter request failed: {detail}") from exc
 
-        data = response.json()
+        try:
+            data = response.json()
+        except ValueError as exc:
+            detail = response.text[:500]
+            raise SpecLoopError(f"OpenRouter returned a non-JSON response: {detail}") from exc
         try:
             message = data["choices"][0]["message"]["content"]
         except (KeyError, IndexError, TypeError) as exc:
@@ -237,6 +376,23 @@ def parse_args() -> argparse.Namespace:
         "--no-git",
         action="store_true",
         help="Disable branch creation and commits",
+    )
+    parser.add_argument(
+        "--seo-repair-attempts",
+        type=int,
+        default=1,
+        help="Maximum targeted SEO repair attempts after the main persona loop",
+    )
+    parser.add_argument(
+        "--seo-persona-score-tolerance",
+        type=float,
+        default=1.0,
+        help="Maximum allowed persona-score drop for accepting an SEO repair",
+    )
+    parser.add_argument(
+        "--skip-seo-gate",
+        action="store_true",
+        help="Skip the final SEO/helpfulness gate",
     )
     return parser.parse_args()
 
@@ -374,6 +530,23 @@ def validate_hero_section(section_text: str) -> list[str]:
     if not match:
         return ["Hero section is missing a 'Headline:' or 'Hero Keyword:' line."]
     headline = match.group(1).strip()
+    suffix_match = re.search(
+        r"(?m)^\s*-\s*Corporate automatically appends `([^`]+)` to the rendered hero headline\.\s*$",
+        section_text,
+    )
+    if suffix_match:
+        suffix = suffix_match.group(1).strip()
+        if "boston northwest" in headline.lower():
+            errors.append(
+                "Hero keyword should not repeat 'Boston Northwest' because the site auto-appends the location."
+            )
+        rendered_headline = f"{headline} {suffix}".strip()
+        if len(rendered_headline) > 60:
+            errors.append(
+                "Rendered hero headline exceeds 60 characters "
+                f"({len(rendered_headline)}) including the auto-appended suffix."
+            )
+        return errors
     if len(headline) > 60:
         errors.append(f"Hero headline exceeds 60 characters ({len(headline)}).")
     return errors
@@ -644,6 +817,32 @@ def parse_judgement(raw_text: str) -> Judgement:
         total_score=round(total_score, 2),
         summary=str(payload.get("summary", "")).strip(),
         raw_response=raw_text,
+        private_feedback=str(payload.get("private_feedback", "")).strip(),
+    )
+
+
+def parse_seo_gate_result(raw_text: str) -> SeoGateResult:
+    payload_text = extract_json_object(raw_text)
+    try:
+        payload = json.loads(payload_text)
+    except json.JSONDecodeError as exc:
+        raise SpecLoopError(f"SEO gate returned invalid JSON: {exc}") from exc
+
+    issues = payload.get("issues", [])
+    repair_instructions = payload.get("repair_instructions", [])
+    if not isinstance(issues, list):
+        raise SpecLoopError("SEO gate 'issues' must be an array.")
+    if not isinstance(repair_instructions, list):
+        raise SpecLoopError("SEO gate 'repair_instructions' must be an array.")
+    return SeoGateResult(
+        passes=bool(payload.get("passes", False)),
+        issues=[str(item).strip() for item in issues if str(item).strip()],
+        repair_instructions=[
+            str(item).strip() for item in repair_instructions if str(item).strip()
+        ],
+        risk_level=str(payload.get("risk_level", "unknown")).strip() or "unknown",
+        notes=str(payload.get("notes", "")).strip(),
+        raw_response=raw_text,
     )
 
 
@@ -656,11 +855,13 @@ def build_mutator_prompt(
     round_number: int,
     accepted_summaries: list[str],
     recent_rejections: list[str],
+    prior_persona_feedback: list[dict[str, Any]] | None = None,
     allowed_sections: list[str] | None = None,
     retry_feedback: str | None = None,
 ) -> list[dict[str, str]]:
     accepted_block = "\n".join(f"- {item}" for item in accepted_summaries[-8:]) or "- None yet"
     rejected_block = "\n".join(f"- {item}" for item in recent_rejections[-5:]) or "- None yet"
+    persona_feedback_block = render_prior_persona_feedback(prior_persona_feedback or [])
     retry_block = ""
     if retry_feedback:
         retry_block = f"\nYour previous attempt failed validation for this reason:\n{retry_feedback}\n"
@@ -704,6 +905,9 @@ def build_mutator_prompt(
 
         Recent rejected ideas:
         {rejected_block}
+
+        Prior-round persona judge feedback:
+        {persona_feedback_block}
         {allowed_block}
         {retry_block}
         Runner requirements:
@@ -728,13 +932,15 @@ def build_judge_prompt(
     spec_text: str,
     rubric_text: str,
     champion_score: float,
+    persona: PersonaJudge | None = None,
     retry_feedback: str | None = None,
 ) -> list[dict[str, str]]:
     retry_block = f"\nYour previous response failed parsing for this reason:\n{retry_feedback}\n" if retry_feedback else ""
+    persona_block = render_persona_for_prompt(persona) if persona is not None else "Persona: General strict CRO evaluator"
     system_prompt = textwrap.dedent(
         """
         You are a strict CRO judge scoring a landing-page optimization spec.
-        Score the candidate independently against the rubric below.
+        Score the candidate independently against the rubric below from the assigned home-care persona's perspective.
         Return JSON only.
 
         Required JSON shape:
@@ -759,6 +965,7 @@ def build_judge_prompt(
             "wordpress_compatibility": "brief rationale",
             "overall_ctr_potential": "brief rationale"
           },
+          "private_feedback": "specific feedback from this persona judge for the next draft",
           "total_score": 0,
           "summary": "brief summary"
         }
@@ -770,6 +977,11 @@ def build_judge_prompt(
         <spec>
         {spec_text}
         </spec>
+
+        Assigned persona judge:
+        <persona>
+        {persona_block}
+        </persona>
 
         Locked scoring rubric:
         <rubric>
@@ -787,7 +999,131 @@ def build_judge_prompt(
         - wordpress_compatibility: 10
         - overall_ctr_potential: 30
 
+        Optimize for real helpfulness, specificity, emotional resonance, trust, and CTR from this persona.
+        Penalize generic, cheesy, vague, or search-engine-first copy even if it contains plausible keywords.
         Keep rationales short and concrete.
+        """
+    ).strip()
+    return [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_prompt},
+    ]
+
+
+def build_seo_gate_prompt(
+    *,
+    spec_text: str,
+    retry_feedback: str | None = None,
+) -> list[dict[str, str]]:
+    retry_block = f"\nYour previous response failed parsing for this reason:\n{retry_feedback}\n" if retry_feedback else ""
+    system_prompt = textwrap.dedent(
+        """
+        You are a Google Search quality and technical discoverability auditor for a Home Care landing page.
+        You are not a growth hacker and you do not rewrite copy. You pass or fail the final candidate after the persona council has selected it.
+        Evaluate people-first helpfulness, non-commodity specificity, query intent satisfaction, local credibility, crawlability/indexability, and over-optimization risk.
+        Return JSON only.
+
+        Required JSON shape:
+        {
+          "passes": true,
+          "issues": ["specific issue"],
+          "repair_instructions": ["specific constrained repair instruction"],
+          "risk_level": "low",
+          "notes": "brief notes"
+        }
+        """
+    ).strip()
+    user_prompt = textwrap.dedent(
+        f"""
+        Final persona-council champion spec to audit:
+        <spec>
+        {spec_text}
+        </spec>
+
+        SEO/helpfulness gate:
+        - Pass if the page is genuinely useful for home-care searchers, locally credible, structured for humans, and technically discoverable.
+        - Fail only for material issues that should be repaired before publishing.
+        - Do not request keyword stuffing, artificial query-variant coverage, AI-search hacks, or generic SEO filler.
+        - Check that title/H1-style messaging, sections, FAQs, and SEO content answer real follow-up questions instead of sounding thin or mass-produced.
+        - Check natural coverage of relevant entities and intents such as home care, in-home care, companion care, personal care, respite care, veteran care, post-rehab support, caregiver screening, service area, onboarding, pricing/consultation, and family communication where relevant.
+        - Check local/service-area clarity, trust signals, and concrete process detail.
+        - Check WordPress/crawlability risks visible in the spec, but do not invent technical problems absent from the spec.
+        - Keep repair_instructions targeted enough for one section-level repair by the drafting agent.
+        {retry_block}
+        """
+    ).strip()
+    return [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_prompt},
+    ]
+
+
+def build_seo_repair_prompt(
+    *,
+    program_text: str,
+    target_file_name: str,
+    spec_text: str,
+    champion_score: float,
+    seo_gate: SeoGateResult,
+    allowed_sections: list[str] | None = None,
+    retry_feedback: str | None = None,
+) -> list[dict[str, str]]:
+    issues_block = "\n".join(f"- {item}" for item in seo_gate.issues) or "- None listed"
+    instructions_block = "\n".join(f"- {item}" for item in seo_gate.repair_instructions) or "- None listed"
+    allowed_block = ""
+    if allowed_sections is not None:
+        allowed_block = (
+            "\nAllowed sections for this repair:\n- "
+            + "\n- ".join(allowed_sections)
+            + "\nDo not edit any other section.\n"
+        )
+    retry_block = ""
+    if retry_feedback:
+        retry_block = f"\nYour previous repair failed validation for this reason:\n{retry_feedback}\n"
+    system_prompt = textwrap.dedent(
+        """
+        Follow the provided program file as your standing voice and page-structure instructions.
+        Apply only the targeted SEO/helpfulness repair. Preserve the persona-council-winning resonance, specificity, and conversion intent.
+        Return exactly this format:
+        <mutation>
+        {"changed_section":"SEO Content","change_summary":"One sentence summary."}
+        </mutation>
+        <updated_section>
+        FULL UPDATED SECTION TEXT HERE, INCLUDING ITS SECTION MARKER
+        </updated_section>
+        """
+    ).strip()
+    user_prompt = textwrap.dedent(
+        f"""
+        Target file to edit: {target_file_name}
+
+        Program file:
+        <program>
+        {program_text}
+        </program>
+
+        Current champion score: {format_score(champion_score)}/100
+
+        SEO gate issues:
+        {issues_block}
+
+        SEO gate repair instructions:
+        {instructions_block}
+
+        Repair rules:
+        - Use the same drafting agent voice and constraints as the main loop.
+        - Make the smallest section-level repair likely to pass the SEO/helpfulness gate.
+        - Do not flatten the page into generic SEO copy.
+        - Do not stuff keywords or add artificial AI-search markup/hacks.
+        - Keep the "Current champion score" line unchanged. The runner will update it if the repair is accepted.
+        - Return only one updated section, including its section marker.
+        {allowed_block}
+        {retry_block}
+
+        Current spec:
+        <spec>
+        {spec_text}
+        </spec>
         """
     ).strip()
     return [
@@ -908,6 +1244,58 @@ def recent_history(records: list[dict[str, Any]]) -> tuple[list[str], list[str]]
     return accepted, rejected
 
 
+def render_persona_for_prompt(persona: PersonaJudge) -> str:
+    pain_points = "\n".join(f"- {item}" for item in persona.pain_points)
+    buying_triggers = "\n".join(f"- {item}" for item in persona.buying_triggers)
+    return textwrap.dedent(
+        f"""
+        Persona: {persona.name}
+        Role/background: {persona.role}. {persona.background}
+        Pain points:
+        {pain_points}
+        Buying triggers:
+        {buying_triggers}
+        Search intent: {persona.search_intent}
+        """
+    ).strip()
+
+
+def render_prior_persona_feedback(persona_judgements: list[dict[str, Any]]) -> str:
+    lines: list[str] = []
+    for item in persona_judgements:
+        persona_name = str(item.get("persona_name", item.get("persona_id", "Unknown persona"))).strip()
+        score = item.get("total_score")
+        feedback = str(item.get("feedback", "")).strip() or str(item.get("summary", "")).strip()
+        score_text = ""
+        if score is not None:
+            try:
+                score_text = f" ({format_score(float(score))}/100)"
+            except (TypeError, ValueError):
+                score_text = ""
+        if feedback:
+            lines.append(f"- {persona_name}{score_text}: {feedback}")
+    return "\n".join(lines) if lines else "- None yet"
+
+
+def latest_persona_feedback(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    for record in reversed(records):
+        persona_judgements = record.get("persona_judgements")
+        if isinstance(persona_judgements, list) and persona_judgements:
+            return [item for item in persona_judgements if isinstance(item, dict)]
+    return []
+
+
+def persona_judgements_from_raw(raw_response: str) -> list[dict[str, Any]]:
+    try:
+        payload = json.loads(raw_response)
+    except json.JSONDecodeError:
+        return []
+    persona_judgements = payload.get("persona_judgements")
+    if not isinstance(persona_judgements, list):
+        return []
+    return [item for item in persona_judgements if isinstance(item, dict)]
+
+
 def get_repo_root(spec_path: Path) -> Path:
     return spec_path.resolve().parent
 
@@ -965,8 +1353,10 @@ def call_mutator(
     allowed_sections: list[str] | None,
     attempts: int,
     temperature: float,
+    prior_persona_feedback: list[dict[str, Any]] | None = None,
 ) -> Mutation:
     retry_feedback: str | None = None
+    last_response = ""
     for _ in range(attempts):
         messages = build_mutator_prompt(
             program_text=program_text,
@@ -976,15 +1366,21 @@ def call_mutator(
             round_number=round_number,
             accepted_summaries=accepted_summaries,
             recent_rejections=recent_rejections,
+            prior_persona_feedback=prior_persona_feedback,
             allowed_sections=allowed_sections,
             retry_feedback=retry_feedback,
         )
-        raw_response = client.complete(
-            model=model,
-            messages=messages,
-            temperature=temperature,
-            reasoning=reasoning,
-        )
+        try:
+            raw_response = client.complete(
+                model=model,
+                messages=messages,
+                temperature=temperature,
+                reasoning=reasoning,
+            )
+        except SpecLoopError as exc:
+            retry_feedback = str(exc)
+            last_response = f"<client_error>{exc}</client_error>"
+            continue
         try:
             return parse_mutation(raw_response)
         except SpecLoopError as exc:
@@ -993,6 +1389,125 @@ def call_mutator(
     raise SpecLoopError(
         f"Mutator failed after {attempts} attempts. Last error: {retry_feedback}\n"
         f"Last response:\n{last_response}"
+    )
+
+
+def call_seo_repair_mutator(
+    *,
+    client: OpenRouterClient,
+    model: str,
+    reasoning: dict[str, Any] | None,
+    program_text: str,
+    target_file_name: str,
+    spec_text: str,
+    champion_score: float,
+    seo_gate: SeoGateResult,
+    allowed_sections: list[str] | None,
+    attempts: int,
+    temperature: float,
+) -> Mutation:
+    retry_feedback: str | None = None
+    last_response = ""
+    for _ in range(attempts):
+        messages = build_seo_repair_prompt(
+            program_text=program_text,
+            target_file_name=target_file_name,
+            spec_text=spec_text,
+            champion_score=champion_score,
+            seo_gate=seo_gate,
+            allowed_sections=allowed_sections,
+            retry_feedback=retry_feedback,
+        )
+        try:
+            raw_response = client.complete(
+                model=model,
+                messages=messages,
+                temperature=temperature,
+                reasoning=reasoning,
+            )
+        except SpecLoopError as exc:
+            retry_feedback = str(exc)
+            last_response = f"<client_error>{exc}</client_error>"
+            continue
+        try:
+            return parse_mutation(raw_response)
+        except SpecLoopError as exc:
+            retry_feedback = str(exc)
+            last_response = raw_response
+    raise SpecLoopError(
+        f"SEO repair mutator failed after {attempts} attempts. Last error: {retry_feedback}\n"
+        f"Last response:\n{last_response}"
+    )
+
+
+def serialize_persona_judgements(persona_judgements: list[PersonaJudgement]) -> list[dict[str, Any]]:
+    serialized: list[dict[str, Any]] = []
+    for item in persona_judgements:
+        judgement = item.judgement
+        serialized.append(
+            {
+                "persona_id": item.persona.persona_id,
+                "persona_name": item.persona.name,
+                "role": item.persona.role,
+                "constraint_pass": judgement.constraint_pass,
+                "violations": judgement.violations,
+                "scores": judgement.scores,
+                "category_rationales": judgement.category_rationales,
+                "total_score": judgement.total_score,
+                "feedback": judgement.private_feedback,
+                "summary": judgement.summary,
+            }
+        )
+    return serialized
+
+
+def aggregate_persona_judgements(persona_judgements: list[PersonaJudgement]) -> Judgement:
+    if not persona_judgements:
+        raise SpecLoopError("Persona council returned no judgements.")
+
+    count = len(persona_judgements)
+    scores = {
+        key: round(sum(item.judgement.scores[key] for item in persona_judgements) / count, 2)
+        for key in SCORE_CATEGORY_MAXES
+    }
+    rationales = {
+        key: " | ".join(
+            f"{item.persona.name}: {item.judgement.category_rationales[key]}"
+            for item in persona_judgements
+        )
+        for key in SCORE_CATEGORY_MAXES
+    }
+    violations: list[str] = []
+    summaries: list[str] = []
+    feedback_items: list[str] = []
+    for item in persona_judgements:
+        judgement = item.judgement
+        violations.extend(f"{item.persona.name}: {violation}" for violation in judgement.violations)
+        if judgement.summary:
+            summaries.append(f"{item.persona.name}: {judgement.summary}")
+        if judgement.private_feedback:
+            feedback_items.append(f"{item.persona.name}: {judgement.private_feedback}")
+
+    raw_payload = {
+        "council_size": count,
+        "weighting": "equal",
+        "constraint_pass": all(item.judgement.constraint_pass for item in persona_judgements),
+        "violations": violations,
+        "scores": scores,
+        "category_rationales": rationales,
+        "total_score": round(sum(item.judgement.total_score for item in persona_judgements) / count, 2),
+        "summary": " | ".join(summaries),
+        "persona_judgements": serialize_persona_judgements(persona_judgements),
+    }
+    return Judgement(
+        constraint_pass=bool(raw_payload["constraint_pass"]),
+        violations=violations,
+        scores=scores,
+        category_rationales=rationales,
+        total_score=float(raw_payload["total_score"]),
+        summary=str(raw_payload["summary"]),
+        raw_response=json.dumps(raw_payload, indent=2),
+        private_feedback="\n".join(feedback_items),
     )
 
 
@@ -1007,27 +1522,83 @@ def call_judge(
     attempts: int,
     temperature: float,
 ) -> Judgement:
+    persona_judgements: list[PersonaJudgement] = []
+    failures: list[str] = []
+    for persona in HOME_CARE_PERSONAS:
+        retry_feedback: str | None = None
+        last_response = ""
+        for _ in range(attempts):
+            messages = build_judge_prompt(
+                spec_text=spec_text,
+                rubric_text=rubric_text,
+                champion_score=champion_score,
+                persona=persona,
+                retry_feedback=retry_feedback,
+            )
+            try:
+                raw_response = client.complete(
+                    model=model,
+                    messages=messages,
+                    temperature=temperature,
+                    reasoning=reasoning,
+                )
+            except SpecLoopError as exc:
+                retry_feedback = str(exc)
+                last_response = f"<client_error>{exc}</client_error>"
+                continue
+            try:
+                persona_judgements.append(
+                    PersonaJudgement(persona=persona, judgement=parse_judgement(raw_response))
+                )
+                break
+            except SpecLoopError as exc:
+                retry_feedback = str(exc)
+                last_response = raw_response
+        else:
+            failures.append(
+                f"{persona.name} failed after {attempts} attempts. "
+                f"Last error: {retry_feedback}\nLast response:\n{last_response}"
+            )
+
+    if failures:
+        raise SpecLoopError("Persona council judge failed:\n" + "\n\n".join(failures))
+    return aggregate_persona_judgements(persona_judgements)
+
+
+def call_seo_gate(
+    *,
+    client: OpenRouterClient,
+    model: str,
+    reasoning: dict[str, Any] | None,
+    spec_text: str,
+    attempts: int,
+    temperature: float,
+) -> SeoGateResult:
     retry_feedback: str | None = None
+    last_response = ""
     for _ in range(attempts):
-        messages = build_judge_prompt(
+        messages = build_seo_gate_prompt(
             spec_text=spec_text,
-            rubric_text=rubric_text,
-            champion_score=champion_score,
             retry_feedback=retry_feedback,
         )
-        raw_response = client.complete(
-            model=model,
-            messages=messages,
-            temperature=temperature,
-            reasoning=reasoning,
-        )
         try:
-            return parse_judgement(raw_response)
+            raw_response = client.complete(
+                model=model,
+                messages=messages,
+                temperature=temperature,
+                reasoning=reasoning,
+            )
+        except SpecLoopError as exc:
+            retry_feedback = str(exc)
+            last_response = f"<client_error>{exc}</client_error>"
+            continue
+        try:
+            return parse_seo_gate_result(raw_response)
         except SpecLoopError as exc:
             retry_feedback = str(exc)
             last_response = raw_response
     raise SpecLoopError(
-        f"Judge failed after {attempts} attempts. Last error: {retry_feedback}\n"
+        f"SEO gate failed after {attempts} attempts. Last error: {retry_feedback}\n"
         f"Last response:\n{last_response}"
     )
 
@@ -1087,6 +1658,7 @@ def baseline_if_needed(
         "violations": baseline_judgement.violations,
         "scores": baseline_judgement.scores,
         "category_rationales": baseline_judgement.category_rationales,
+        "persona_judgements": persona_judgements_from_raw(baseline_judgement.raw_response),
         "candidate_score": baseline_score,
         "champion_score": baseline_score,
         "change_summary": "baseline",
@@ -1107,6 +1679,7 @@ def build_final_report(
     rounds_run: int,
     stale_count: int,
     accepted_records: list[dict[str, Any]],
+    seo_gate_record: dict[str, Any] | None = None,
 ) -> str:
     top_changes = sorted(
         accepted_records,
@@ -1120,9 +1693,18 @@ def build_final_report(
         f"Rounds completed: {rounds_run}",
         f"Accepted improvements: {len(accepted_records)}",
         f"Ending stale count: {stale_count}",
-        "",
-        "## Top 3 CTR-driving changes",
     ]
+    if seo_gate_record is not None:
+        status = "passed" if seo_gate_record.get("seo_passes") else "failed"
+        if seo_gate_record.get("seo_repair_accepted"):
+            status = "passed after repair"
+        lines.extend(
+            [
+                f"SEO/helpfulness gate: {status}",
+                f"SEO risk level: {seo_gate_record.get('seo_risk_level', 'unknown')}",
+            ]
+        )
+    lines.extend(["", "## Top 3 CTR-driving changes"])
     if top_changes:
         for index, record in enumerate(top_changes, start=1):
             delta = float(record["candidate_score"]) - float(record["score_before"])
@@ -1143,6 +1725,27 @@ def build_final_report(
         ]
     )
     return "\n".join(lines)
+
+
+def seo_gate_to_record(
+    *,
+    seo_gate: SeoGateResult,
+    champion_score: float,
+    repair_accepted: bool = False,
+    repair_candidate_score: float | None = None,
+) -> dict[str, Any]:
+    return {
+        "kind": "seo_gate",
+        "seo_passes": seo_gate.passes,
+        "seo_risk_level": seo_gate.risk_level,
+        "seo_issues": seo_gate.issues,
+        "seo_repair_instructions": seo_gate.repair_instructions,
+        "seo_notes": seo_gate.notes,
+        "seo_repair_accepted": repair_accepted,
+        "seo_repair_candidate_score": repair_candidate_score,
+        "champion_score": champion_score,
+        "timestamp": int(time.time()),
+    }
 
 
 def main() -> int:
@@ -1216,6 +1819,7 @@ def main() -> int:
     total_rounds_run = start_round - 1
     records = load_jsonl(records_path)
     accepted_summaries, rejected_summaries = recent_history(records)
+    prior_persona_feedback = latest_persona_feedback(records)
 
     for round_number in range(start_round, args.rounds + 1):
         if stale_count >= args.stale_limit:
@@ -1226,21 +1830,56 @@ def main() -> int:
             f"Round {round_number}/{args.rounds} | champion {format_score(champion_score)}/100 | "
             f"stale {stale_count}/{args.stale_limit}"
         )
-        mutation = call_mutator(
-            client=client,
-            model=mutator_model,
-            reasoning=mutator_reasoning,
-            program_text=program_text,
-            target_file_name=spec_path.name,
-            spec_text=current_spec,
-            champion_score=champion_score,
-            round_number=round_number,
-            accepted_summaries=accepted_summaries,
-            recent_rejections=rejected_summaries,
-            allowed_sections=allowed_sections,
-            attempts=args.model_attempts,
-            temperature=args.mutator_temperature,
-        )
+        try:
+            mutation = call_mutator(
+                client=client,
+                model=mutator_model,
+                reasoning=mutator_reasoning,
+                program_text=program_text,
+                target_file_name=spec_path.name,
+                spec_text=current_spec,
+                champion_score=champion_score,
+                round_number=round_number,
+                accepted_summaries=accepted_summaries,
+                recent_rejections=rejected_summaries,
+                allowed_sections=allowed_sections,
+                attempts=args.model_attempts,
+                temperature=args.mutator_temperature,
+                prior_persona_feedback=prior_persona_feedback,
+            )
+        except SpecLoopError as exc:
+            stale_count += 1
+            candidate_path, judgement_path, mutation_path = persist_round_artifacts(
+                run_dir=run_dir,
+                round_number=round_number,
+                mutation_raw=str(exc),
+                candidate_spec=None,
+                judgement_raw=None,
+            )
+            record = {
+                "kind": "round",
+                "round": round_number,
+                "accepted": False,
+                "changed_section": "model_error",
+                "change_summary": "Mutator failed to return a usable section after retries.",
+                "score_before": champion_score,
+                "candidate_score": champion_score,
+                "champion_score": champion_score,
+                "constraint_pass": False,
+                "violations": [str(exc)],
+                "summary": "Rejected because the mutator/model call failed after retries.",
+                "mutation_path": mutation_path,
+                "candidate_path": candidate_path,
+                "judgement_path": judgement_path,
+                "timestamp": int(time.time()),
+            }
+            append_jsonl(records_path, record)
+            rejected_summaries.append(
+                f"Round {round_number} | model_error | mutator failed | {format_score(champion_score)}/100"
+            )
+            print(f"  rejected: {exc}")
+            total_rounds_run = round_number
+            continue
 
         try:
             candidate_spec = splice_updated_section(
@@ -1324,16 +1963,50 @@ def main() -> int:
             total_rounds_run = round_number
             continue
 
-        judgement = call_judge(
-            client=client,
-            model=judge_model,
-            reasoning=judge_reasoning,
-            spec_text=normalized_candidate,
-            rubric_text=rubric_text,
-            champion_score=champion_score,
-            attempts=args.model_attempts,
-            temperature=args.judge_temperature,
-        )
+        try:
+            judgement = call_judge(
+                client=client,
+                model=judge_model,
+                reasoning=judge_reasoning,
+                spec_text=normalized_candidate,
+                rubric_text=rubric_text,
+                champion_score=champion_score,
+                attempts=args.model_attempts,
+                temperature=args.judge_temperature,
+            )
+        except SpecLoopError as exc:
+            stale_count += 1
+            candidate_path, judgement_path, mutation_path = persist_round_artifacts(
+                run_dir=run_dir,
+                round_number=round_number,
+                mutation_raw=mutation.raw_response,
+                candidate_spec=normalized_candidate,
+                judgement_raw=str(exc),
+            )
+            record = {
+                "kind": "round",
+                "round": round_number,
+                "accepted": False,
+                "changed_section": mutation.changed_section,
+                "change_summary": mutation.change_summary,
+                "score_before": champion_score,
+                "candidate_score": champion_score,
+                "champion_score": champion_score,
+                "constraint_pass": False,
+                "violations": [str(exc)],
+                "summary": "Rejected because the judge/model call failed after retries.",
+                "mutation_path": mutation_path,
+                "candidate_path": candidate_path,
+                "judgement_path": judgement_path,
+                "timestamp": int(time.time()),
+            }
+            append_jsonl(records_path, record)
+            rejected_summaries.append(
+                f"Round {round_number} | {mutation.changed_section} | {mutation.change_summary} | judge failed"
+            )
+            print(f"  rejected: {exc}")
+            total_rounds_run = round_number
+            continue
         candidate_path, judgement_path, mutation_path = persist_round_artifacts(
             run_dir=run_dir,
             round_number=round_number,
@@ -1383,6 +2056,7 @@ def main() -> int:
             "violations": judgement.violations,
             "scores": judgement.scores,
             "category_rationales": judgement.category_rationales,
+            "persona_judgements": persona_judgements_from_raw(judgement.raw_response),
             "summary": judgement.summary,
             "commit": commit_sha,
             "mutation_path": mutation_path,
@@ -1391,6 +2065,7 @@ def main() -> int:
             "timestamp": int(time.time()),
         }
         append_jsonl(records_path, record)
+        prior_persona_feedback = record["persona_judgements"]
 
         decision_text = "accepted" if accepted else "rejected"
         print(
@@ -1398,6 +2073,225 @@ def main() -> int:
             f"champion {format_score(champion_score)}/100"
         )
         total_rounds_run = round_number
+
+    seo_gate_record: dict[str, Any] | None = None
+    if args.skip_seo_gate:
+        seo_gate_record = {
+            "kind": "seo_gate",
+            "seo_passes": True,
+            "seo_risk_level": "skipped",
+            "seo_issues": [],
+            "seo_repair_instructions": [],
+            "seo_notes": "Skipped by --skip-seo-gate.",
+            "seo_repair_accepted": False,
+            "champion_score": champion_score,
+            "timestamp": int(time.time()),
+        }
+    else:
+        print("Running final SEO/helpfulness gate...")
+        try:
+            initial_seo_gate = call_seo_gate(
+                client=client,
+                model=judge_model,
+                reasoning=judge_reasoning,
+                spec_text=current_spec,
+                attempts=args.model_attempts,
+                temperature=args.judge_temperature,
+            )
+            write_text(run_dir / "seo_gate_initial.json", initial_seo_gate.raw_response)
+            seo_gate_record = seo_gate_to_record(
+                seo_gate=initial_seo_gate,
+                champion_score=champion_score,
+            )
+        except SpecLoopError as exc:
+            initial_seo_gate = SeoGateResult(
+                passes=False,
+                issues=[str(exc)],
+                repair_instructions=[],
+                risk_level="model_error",
+                notes="SEO gate failed after retries.",
+                raw_response=str(exc),
+            )
+            seo_gate_record = seo_gate_to_record(
+                seo_gate=initial_seo_gate,
+                champion_score=champion_score,
+            )
+            write_text(run_dir / "seo_gate_initial.json", initial_seo_gate.raw_response)
+
+        if initial_seo_gate.passes:
+            append_jsonl(records_path, seo_gate_record)
+            print("  SEO gate passed.")
+        elif initial_seo_gate.risk_level == "model_error":
+            append_jsonl(records_path, seo_gate_record)
+            print("  SEO gate failed after retries; no repair attempted.")
+        elif args.seo_repair_attempts <= 0:
+            append_jsonl(records_path, seo_gate_record)
+            print("  SEO gate failed; repair disabled.")
+        else:
+            repair_accepted = False
+            for repair_attempt in range(1, args.seo_repair_attempts + 1):
+                print(f"  SEO repair attempt {repair_attempt}/{args.seo_repair_attempts}")
+                seo_dir = run_dir / "seo_repair"
+                try:
+                    repair_mutation = call_seo_repair_mutator(
+                        client=client,
+                        model=mutator_model,
+                        reasoning=mutator_reasoning,
+                        program_text=program_text,
+                        target_file_name=spec_path.name,
+                        spec_text=current_spec,
+                        champion_score=champion_score,
+                        seo_gate=initial_seo_gate,
+                        allowed_sections=allowed_sections,
+                        attempts=args.model_attempts,
+                        temperature=args.mutator_temperature,
+                    )
+                    write_text(
+                        seo_dir / f"repair-{repair_attempt:03d}-mutation.txt",
+                        repair_mutation.raw_response,
+                    )
+                    repair_candidate = splice_updated_section(
+                        current_spec=current_spec,
+                        section_name=repair_mutation.changed_section,
+                        updated_section=repair_mutation.updated_section,
+                    )
+                    normalized_repair, repair_validation_errors = validate_candidate_spec(
+                        current_spec=current_spec,
+                        candidate_spec=repair_candidate,
+                        declared_section=repair_mutation.changed_section,
+                        current_score=champion_score,
+                        allowed_sections=allowed_sections,
+                    )
+                    write_text(seo_dir / f"repair-{repair_attempt:03d}.md", normalized_repair)
+                    if repair_validation_errors:
+                        raise SpecLoopError("; ".join(repair_validation_errors))
+
+                    repaired_seo_gate = call_seo_gate(
+                        client=client,
+                        model=judge_model,
+                        reasoning=judge_reasoning,
+                        spec_text=normalized_repair,
+                        attempts=args.model_attempts,
+                        temperature=args.judge_temperature,
+                    )
+                    write_text(
+                        seo_dir / f"repair-{repair_attempt:03d}-seo-gate.json",
+                        repaired_seo_gate.raw_response,
+                    )
+                    if not repaired_seo_gate.passes:
+                        repair_record = {
+                            "kind": "seo_repair",
+                            "attempt": repair_attempt,
+                            "accepted": False,
+                            "changed_section": repair_mutation.changed_section,
+                            "change_summary": repair_mutation.change_summary,
+                            "score_before": champion_score,
+                            "candidate_score": champion_score,
+                            "champion_score": champion_score,
+                            "constraint_pass": False,
+                            "violations": repaired_seo_gate.issues,
+                            "summary": "SEO repair rejected because the SEO gate still failed.",
+                            "seo_passes": False,
+                            "timestamp": int(time.time()),
+                        }
+                        append_jsonl(records_path, repair_record)
+                        initial_seo_gate = repaired_seo_gate
+                        seo_gate_record = seo_gate_to_record(
+                            seo_gate=repaired_seo_gate,
+                            champion_score=champion_score,
+                        )
+                        continue
+
+                    repair_judgement = call_judge(
+                        client=client,
+                        model=judge_model,
+                        reasoning=judge_reasoning,
+                        spec_text=normalized_repair,
+                        rubric_text=rubric_text,
+                        champion_score=champion_score,
+                        attempts=args.model_attempts,
+                        temperature=args.judge_temperature,
+                    )
+                    write_text(
+                        seo_dir / f"repair-{repair_attempt:03d}-persona-judgement.json",
+                        repair_judgement.raw_response,
+                    )
+                    min_acceptable_score = champion_score - args.seo_persona_score_tolerance
+                    repair_accepted = (
+                        repair_judgement.constraint_pass
+                        and repair_judgement.total_score >= min_acceptable_score
+                    )
+                    commit_sha = None
+                    if repair_accepted:
+                        champion_score = repair_judgement.total_score
+                        current_spec = replace_current_champion_score(normalized_repair, champion_score)
+                        write_text(spec_path, current_spec)
+                        write_text(run_dir / "winner.md", current_spec)
+                        if not args.no_git:
+                            commit_message = (
+                                f"specsearch: seo repair {format_score(champion_score)}/100 "
+                                f"{repair_mutation.changed_section}"
+                            )
+                            commit_sha = git_commit_path(repo_root, spec_relative_path, commit_message)
+
+                    repair_record = {
+                        "kind": "seo_repair",
+                        "attempt": repair_attempt,
+                        "accepted": repair_accepted,
+                        "changed_section": repair_mutation.changed_section,
+                        "change_summary": repair_mutation.change_summary,
+                        "score_before": min_acceptable_score + args.seo_persona_score_tolerance,
+                        "candidate_score": repair_judgement.total_score,
+                        "champion_score": champion_score,
+                        "constraint_pass": repair_judgement.constraint_pass,
+                        "violations": repair_judgement.violations,
+                        "scores": repair_judgement.scores,
+                        "category_rationales": repair_judgement.category_rationales,
+                        "persona_judgements": persona_judgements_from_raw(repair_judgement.raw_response),
+                        "summary": repair_judgement.summary,
+                        "seo_passes": repaired_seo_gate.passes,
+                        "commit": commit_sha,
+                        "timestamp": int(time.time()),
+                    }
+                    append_jsonl(records_path, repair_record)
+                    seo_gate_record = seo_gate_to_record(
+                        seo_gate=repaired_seo_gate,
+                        champion_score=champion_score,
+                        repair_accepted=repair_accepted,
+                        repair_candidate_score=repair_judgement.total_score,
+                    )
+                    if repair_accepted:
+                        print(
+                            "  SEO repair accepted: "
+                            f"{format_score(repair_judgement.total_score)}/100"
+                        )
+                    else:
+                        print(
+                            "  SEO repair rejected by persona council: "
+                            f"{format_score(repair_judgement.total_score)}/100"
+                        )
+                    break
+                except SpecLoopError as exc:
+                    repair_record = {
+                        "kind": "seo_repair",
+                        "attempt": repair_attempt,
+                        "accepted": False,
+                        "changed_section": "model_error",
+                        "change_summary": "SEO repair failed before final acceptance.",
+                        "score_before": champion_score,
+                        "candidate_score": champion_score,
+                        "champion_score": champion_score,
+                        "constraint_pass": False,
+                        "violations": [str(exc)],
+                        "summary": "SEO repair failed before final acceptance.",
+                        "seo_passes": False,
+                        "timestamp": int(time.time()),
+                    }
+                    append_jsonl(records_path, repair_record)
+                    print(f"  SEO repair rejected: {exc}")
+
+            if seo_gate_record is not None:
+                append_jsonl(records_path, seo_gate_record)
 
     records = load_jsonl(records_path)
     accepted_records = [
@@ -1412,6 +2306,7 @@ def main() -> int:
         rounds_run=total_rounds_run,
         stale_count=stale_count,
         accepted_records=accepted_records,
+        seo_gate_record=seo_gate_record,
     )
     write_text(run_dir / "final_report.md", final_report)
     print(f"Done. Final report: {run_dir / 'final_report.md'}")

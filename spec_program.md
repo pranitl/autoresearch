@@ -22,15 +22,15 @@ You are optimizing for clicks, not downstream form submissions.
 ## Editing rules
 
 - Make exactly one small, targeted improvement per round.
-- For this run, change exactly one of these sections per round:
+- For this run, change exactly one section per round:
+  - `Hero`
   - `Owners Section`
-  - `Featured Page`
-  - `SEO Content`
-  - `FAQs`
+  - `Services Grid`
+  - `Videos`
 - Keep all non-editable content unchanged.
 - Preserve every hard constraint already present in `page_spec.md`.
 - Treat every `### Locked Notes` block in `page_spec.md` as non-editable page structure.
-- Do not edit `Hero` or `Services Grid` in this run.
+- Do not edit `Featured Page`, `SEO Content`, or `FAQs` in this run.
 
 ## Optimization heuristics
 
@@ -45,12 +45,13 @@ You are optimizing for clicks, not downstream form submissions.
 
 ## Section guidance
 
-- `Hero`: leave unchanged for this run.
-- `Owners Section`: strengthen empathy, affordability, proof, and risk reduction. You may test different town combinations in the section headline and supporting copy when they improve local relevance without feeling stuffed.
-- `Services Grid`: leave unchanged for this run.
-- `Featured Page`: optimize the current `About us` selection by changing the custom headline and custom content only. Keep the selected page as `About us`, keep the content plain text only, and stay within the 200-character limit.
-- `SEO Content`: improve skimmability, local trust, and action intent while staying paste-clean for WordPress blocks. You may test different service-area mentions where they appear naturally.
-- `FAQs`: both the questions and the answers are editable. Keep 5 FAQ items total and make them clearer, more reassuring, more action-oriented, and locally relevant where a town reference adds credibility.
+- `Hero`: optimize only the `Hero Keyword` field. Corporate automatically appends `in Boston Northwest` to the rendered line, so write the editable text to read naturally before that suffix. Avoid repeating `Boston Northwest` in the editable field, and keep the full rendered headline concise enough to fit the current layout cleanly.
+- `Owners Section`: optimize only the main `Headline` line above the owner copy. Do not change the section label, phone link, or owner body copy. Test clearer benefit framing, local relevance, and stronger click pull without stuffing town names.
+- `Services Grid`: optimize only the `Services headline` and `Services intro` text. Do not change the displayed services or additional service options. Make the headline and intro more click-oriented for `Learn More` links by clarifying fit, reducing decision friction, and making the featured services feel immediately relevant. You may test one or two local town references when they sound natural, but do not stuff town names.
+- `Featured Page`: leave unchanged for this run.
+- `Videos`: optimize only the `Video headline` and `Video description`. Keep the focus on trust, caregiver quality, peace of mind, and local relevance that can increase later pricing/contact clicks. Do not change the video embeds/media.
+- `SEO Content`: leave unchanged for this run.
+- `FAQs`: leave unchanged for this run.
 
 ## Output discipline
 
