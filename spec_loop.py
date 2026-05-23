@@ -1888,8 +1888,8 @@ def main() -> int:
         panel_model = os.getenv("CODEX_PANEL_MODEL", "gpt-5.5")
         judge_model = os.getenv("CODEX_JUDGE_MODEL", "gpt-5.5")
         mutator_reasoning = get_reasoning_config("CODEX_MUTATOR_REASONING_EFFORT", "low")
-        panel_reasoning = get_reasoning_config("CODEX_PANEL_REASONING_EFFORT", "low")
-        judge_reasoning = get_reasoning_config("CODEX_JUDGE_REASONING_EFFORT", "high")
+        panel_reasoning = get_reasoning_config("CODEX_PANEL_REASONING_EFFORT", "high")
+        judge_reasoning = get_reasoning_config("CODEX_JUDGE_REASONING_EFFORT", "medium")
         client = CodexCliClient(cwd=repo_root)
     else:
         raise SpecLoopError("MODEL_BACKEND must be either 'codex_cli' or 'openrouter'.")
