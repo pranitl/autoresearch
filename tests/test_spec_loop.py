@@ -161,6 +161,36 @@ class SpecLoopTests(unittest.TestCase):
         self.assertEqual(spec_loop.find_changed_sections(PAGE_SPEC, candidate), ["Hero"])
         self.assertIn("Hero Keyword: Home Care With No Weekly Minimums", candidate)
 
+
+    def test_codex_cli_client_uses_reasoning_effort_and_output_file(self) -> None:
+        with patch("spec_loop.subprocess.run") as run_mock, patch(
+            "spec_loop.tempfile.NamedTemporaryFile"
+        ) as tmp_mock:
+            tmp_file = MagicMock()
+            tmp_file.name = "/tmp/codex-response.txt"
+            tmp_file.read.return_value = "<mutation>{}</mutation>"
+            tmp_mock.return_value.__enter__.return_value = tmp_file
+            run_mock.return_value.returncode = 0
+            run_mock.return_value.stdout = ""
+            run_mock.return_value.stderr = ""
+
+            client = spec_loop.CodexCliClient(cwd=ROOT)
+            response = client.complete(
+                model="gpt-5.5",
+                messages=[{"role": "user", "content": "Return JSON."}],
+                temperature=0.2,
+                reasoning={"effort": "low"},
+            )
+
+        self.assertEqual(response, "<mutation>{}</mutation>")
+        command = run_mock.call_args.args[0]
+        self.assertIn("codex", command)
+        self.assertIn("exec", command)
+        self.assertIn("gpt-5.5", command)
+        self.assertIn('model_reasoning_effort="low"', command)
+        self.assertIn("-o", command)
+        self.assertIn("/tmp/codex-response.txt", command)
+
     def test_build_mutator_prompt_uses_program_file(self) -> None:
         messages = spec_loop.build_mutator_prompt(
             program_text=SPEC_PROGRAM,

@@ -17,11 +17,12 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 import textwrap
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Protocol
 
 import requests
 
@@ -239,6 +240,18 @@ HOME_CARE_PERSONAS = [
 ]
 
 
+class ModelClient(Protocol):
+    def complete(
+        self,
+        *,
+        model: str,
+        messages: list[dict[str, str]],
+        temperature: float,
+        reasoning: dict[str, Any] | None = None,
+    ) -> str:
+        ...
+
+
 class OpenRouterClient:
     def __init__(self, api_key: str, base_url: str, timeout: int = 300) -> None:
         self.api_key = api_key
@@ -315,8 +328,82 @@ class OpenRouterClient:
         raise SpecLoopError(f"Unsupported OpenRouter content payload: {message!r}")
 
 
+class CodexCliClient:
+    def __init__(self, cwd: Path, timeout: int = 900) -> None:
+        self.cwd = cwd
+        self.timeout = timeout
+
+    def complete(
+        self,
+        *,
+        model: str,
+        messages: list[dict[str, str]],
+        temperature: float,
+        reasoning: dict[str, Any] | None = None,
+    ) -> str:
+        prompt = self._render_prompt(messages, temperature)
+        effort = (reasoning or {}).get("effort")
+        command = [
+            "codex",
+            "exec",
+            "--ephemeral",
+            "--sandbox",
+            "read-only",
+            "--ask-for-approval",
+            "never",
+            "-C",
+            str(self.cwd),
+            "-m",
+            model,
+        ]
+        if effort:
+            command.extend(["-c", f'model_reasoning_effort="{effort}"'])
+        command.append("-")
+
+        with tempfile.NamedTemporaryFile("r", encoding="utf-8", delete=True) as output:
+            command.extend(["-o", output.name])
+            try:
+                completed = subprocess.run(
+                    command,
+                    input=prompt,
+                    cwd=str(self.cwd),
+                    text=True,
+                    capture_output=True,
+                    timeout=self.timeout,
+                    check=False,
+                )
+            except subprocess.TimeoutExpired as exc:
+                raise SpecLoopError(
+                    f"Codex CLI request timed out after {self.timeout}s."
+                ) from exc
+
+            if completed.returncode != 0:
+                detail = (completed.stderr or completed.stdout).strip()[:1000]
+                raise SpecLoopError(f"Codex CLI request failed: {detail}")
+
+            output.seek(0)
+            response = output.read().strip()
+        if not response:
+            detail = completed.stdout.strip()[:1000]
+            raise SpecLoopError(f"Codex CLI returned an empty response: {detail}")
+        return response
+
+    @staticmethod
+    def _render_prompt(messages: list[dict[str, str]], temperature: float) -> str:
+        rendered = [
+            "Return only the requested machine-readable response. "
+            "Do not edit files or run commands.",
+            f"Requested sampling temperature: {temperature}",
+        ]
+        for message in messages:
+            role = message.get("role", "user")
+            content = message.get("content", "")
+            rendered.append(f"<{role}>\n{content}\n</{role}>")
+        return "\n\n".join(rendered)
+
+
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="OpenRouter spec optimization loop")
+    parser = argparse.ArgumentParser(description="Spec optimization loop")
     parser.add_argument("--spec", type=Path, required=True, help="Path to the spec file")
     parser.add_argument(
         "--program",
@@ -421,8 +508,8 @@ def require_env(name: str) -> str:
     return value
 
 
-def get_reasoning_config(env_name: str) -> dict[str, Any] | None:
-    effort = os.getenv(env_name, "").strip().lower()
+def get_reasoning_config(env_name: str, default: str = "") -> dict[str, Any] | None:
+    effort = os.getenv(env_name, default).strip().lower()
     if not effort:
         return None
     allowed = {"none", "minimal", "low", "medium", "high", "xhigh"}
@@ -536,9 +623,11 @@ def validate_hero_section(section_text: str) -> list[str]:
     )
     if suffix_match:
         suffix = suffix_match.group(1).strip()
-        if "boston northwest" in headline.lower():
+        suffix_location = re.sub(r"^in\s+", "", suffix, flags=re.IGNORECASE).strip()
+        if suffix_location and suffix_location.lower() in headline.lower():
             errors.append(
-                "Hero keyword should not repeat 'Boston Northwest' because the site auto-appends the location."
+                f"Hero keyword should not repeat {suffix_location!r} "
+                "because the site auto-appends the location."
             )
         rendered_headline = f"{headline} {suffix}".strip()
         if len(rendered_headline) > 60:
@@ -1340,7 +1429,7 @@ def persist_round_artifacts(
 
 def call_mutator(
     *,
-    client: OpenRouterClient,
+    client: ModelClient,
     model: str,
     reasoning: dict[str, Any] | None,
     program_text: str,
@@ -1394,7 +1483,7 @@ def call_mutator(
 
 def call_seo_repair_mutator(
     *,
-    client: OpenRouterClient,
+    client: ModelClient,
     model: str,
     reasoning: dict[str, Any] | None,
     program_text: str,
@@ -1513,7 +1602,7 @@ def aggregate_persona_judgements(persona_judgements: list[PersonaJudgement]) -> 
 
 def call_judge(
     *,
-    client: OpenRouterClient,
+    client: ModelClient,
     model: str,
     reasoning: dict[str, Any] | None,
     spec_text: str,
@@ -1567,7 +1656,7 @@ def call_judge(
 
 def call_seo_gate(
     *,
-    client: OpenRouterClient,
+    client: ModelClient,
     model: str,
     reasoning: dict[str, Any] | None,
     spec_text: str,
@@ -1609,7 +1698,7 @@ def baseline_if_needed(
     run_dir: Path,
     records_path: Path,
     current_spec: str,
-    judge: OpenRouterClient,
+    judge: ModelClient,
     judge_model: str,
     judge_reasoning: dict[str, Any] | None,
     rubric_text: str,
@@ -1773,13 +1862,37 @@ def main() -> int:
         branch_name = f"{args.branch_prefix}/{args.tag}"
         ensure_git_branch(repo_root, branch_name)
 
-    api_key = require_env("OPENROUTER_API_KEY")
-    mutator_model = require_env("OPENROUTER_MUTATOR_MODEL")
-    judge_model = require_env("OPENROUTER_JUDGE_MODEL")
-    mutator_reasoning = get_reasoning_config("OPENROUTER_MUTATOR_REASONING_EFFORT")
-    judge_reasoning = get_reasoning_config("OPENROUTER_JUDGE_REASONING_EFFORT")
-    base_url = os.getenv("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1")
-    client = OpenRouterClient(api_key=api_key, base_url=base_url)
+    model_backend = os.getenv("MODEL_BACKEND", "codex_cli").strip().lower()
+    if model_backend == "openrouter":
+        api_key = require_env("OPENROUTER_API_KEY")
+        mutator_model = require_env("OPENROUTER_MUTATOR_MODEL")
+        panel_model = os.getenv(
+            "OPENROUTER_PANEL_MODEL", os.getenv("OPENROUTER_JUDGE_MODEL", "")
+        ).strip()
+        if not panel_model:
+            raise SpecLoopError(
+                "Missing required environment variable: "
+                "OPENROUTER_PANEL_MODEL or OPENROUTER_JUDGE_MODEL"
+            )
+        judge_model = require_env("OPENROUTER_JUDGE_MODEL")
+        mutator_reasoning = get_reasoning_config("OPENROUTER_MUTATOR_REASONING_EFFORT")
+        panel_reasoning = get_reasoning_config(
+            "OPENROUTER_PANEL_REASONING_EFFORT",
+            os.getenv("OPENROUTER_JUDGE_REASONING_EFFORT", ""),
+        )
+        judge_reasoning = get_reasoning_config("OPENROUTER_JUDGE_REASONING_EFFORT")
+        base_url = os.getenv("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1")
+        client: ModelClient = OpenRouterClient(api_key=api_key, base_url=base_url)
+    elif model_backend == "codex_cli":
+        mutator_model = os.getenv("CODEX_MUTATOR_MODEL", "gpt-5.5")
+        panel_model = os.getenv("CODEX_PANEL_MODEL", "gpt-5.5")
+        judge_model = os.getenv("CODEX_JUDGE_MODEL", "gpt-5.5")
+        mutator_reasoning = get_reasoning_config("CODEX_MUTATOR_REASONING_EFFORT", "low")
+        panel_reasoning = get_reasoning_config("CODEX_PANEL_REASONING_EFFORT", "low")
+        judge_reasoning = get_reasoning_config("CODEX_JUDGE_REASONING_EFFORT", "high")
+        client = CodexCliClient(cwd=repo_root)
+    else:
+        raise SpecLoopError("MODEL_BACKEND must be either 'codex_cli' or 'openrouter'.")
 
     run_dir = (repo_root / args.output_dir / args.tag).resolve()
     run_dir.mkdir(parents=True, exist_ok=True)
@@ -1794,8 +1907,8 @@ def main() -> int:
         records_path=records_path,
         current_spec=current_spec,
         judge=client,
-        judge_model=judge_model,
-        judge_reasoning=judge_reasoning,
+        judge_model=panel_model,
+        judge_reasoning=panel_reasoning,
         rubric_text=rubric_text,
         judge_attempts=args.model_attempts,
         judge_temperature=args.judge_temperature,
@@ -1966,8 +2079,8 @@ def main() -> int:
         try:
             judgement = call_judge(
                 client=client,
-                model=judge_model,
-                reasoning=judge_reasoning,
+                model=panel_model,
+                reasoning=panel_reasoning,
                 spec_text=normalized_candidate,
                 rubric_text=rubric_text,
                 champion_score=champion_score,
@@ -2204,8 +2317,8 @@ def main() -> int:
 
                     repair_judgement = call_judge(
                         client=client,
-                        model=judge_model,
-                        reasoning=judge_reasoning,
+                        model=panel_model,
+                        reasoning=panel_reasoning,
                         spec_text=normalized_repair,
                         rubric_text=rubric_text,
                         champion_score=champion_score,

@@ -6,7 +6,7 @@ This repo keeps the useful part of the original autonomous research pattern: an
 agent proposes one controlled challenger, a locked judge rubric scores it against
 the current champion, and the runner keeps only strict improvements. Instead of
 optimizing model weights, the loop optimizes landing-page sections, CTAs, and
-Google Ads RSA copy using OpenRouter-backed mutator and judge models.
+Google Ads RSA copy using Codex CLI by default, with OpenRouter available as a fallback backend.
 
 ## What This Does
 
@@ -92,18 +92,28 @@ Configure models:
 cp .env.example .env
 ```
 
-Required environment variables:
+Default Codex CLI backend:
 
 ```bash
-OPENROUTER_API_KEY=your_openrouter_api_key
-OPENROUTER_MUTATOR_MODEL=x-ai/grok-4.3
-OPENROUTER_JUDGE_MODEL=google/gemini-3.1-pro-preview
+MODEL_BACKEND=codex_cli
+CODEX_MUTATOR_MODEL=gpt-5.5
+CODEX_PANEL_MODEL=gpt-5.5
+CODEX_JUDGE_MODEL=gpt-5.5
+CODEX_MUTATOR_REASONING_EFFORT=low
+CODEX_PANEL_REASONING_EFFORT=low
+CODEX_JUDGE_REASONING_EFFORT=high
 ```
 
-Optional:
+OpenRouter fallback:
 
 ```bash
+MODEL_BACKEND=openrouter
+OPENROUTER_API_KEY=your_openrouter_api_key
+OPENROUTER_MUTATOR_MODEL=x-ai/grok-4.3
+OPENROUTER_PANEL_MODEL=google/gemini-3.1-pro-preview
+OPENROUTER_JUDGE_MODEL=google/gemini-3.1-pro-preview
 OPENROUTER_MUTATOR_REASONING_EFFORT=medium
+OPENROUTER_PANEL_REASONING_EFFORT=high
 OPENROUTER_JUDGE_REASONING_EFFORT=high
 OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
 OPENROUTER_SITE_URL=https://your-site.example
